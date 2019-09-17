@@ -11,13 +11,6 @@ import RxSwift
 
 // swiftlint:disable line_length
 
-struct News {
-    var title: String
-    var subtitle: String
-    var image: UIImage
-    var content: String
-}
-
 protocol NewsService {
     func mostRecentNews() -> (title: String, articles: [News])
 }
