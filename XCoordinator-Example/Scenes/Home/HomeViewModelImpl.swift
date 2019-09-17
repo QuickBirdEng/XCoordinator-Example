@@ -13,13 +13,13 @@ import XCoordinatorRx
 
 class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput {
 
-    // MARK: - Inputs
+    // MARK: Inputs
 
     private(set) lazy var logoutTrigger = logoutAction.inputs
     private(set) lazy var usersTrigger = usersAction.inputs
     private(set) lazy var aboutTrigger = aboutAction.inputs
 
-    // MARK: - Actions
+    // MARK: Actions
 
     private lazy var logoutAction = CocoaAction { [unowned self] in
         self.router.rx.trigger(.logout)
@@ -32,19 +32,20 @@ class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput 
     private lazy var aboutAction = CocoaAction { [unowned self] in
         self.router.rx.trigger(.about)
     }
-    // MARK: - Private
+    // MARK: Stored properties
 
     private let router: UnownedRouter<UserListRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(router: UnownedRouter<UserListRoute>) {
         self.router = router
     }
 
-    // MARK: - Methods
+    // MARK: Methods
 
     func registerPeek(for sourceView: Container) {
         router.trigger(.registerUsersPeek(from: sourceView))
     }
+
 }

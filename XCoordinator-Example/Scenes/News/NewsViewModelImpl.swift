@@ -12,29 +12,29 @@ import XCoordinator
 
 class NewsViewModelImpl: NewsViewModel, NewsViewModelInput, NewsViewModelOutput {
 
-    // MARK: - Inputs
+    // MARK: Inputs
 
-    lazy var selectedNews = newsSelectedAction.inputs
+    private(set) lazy var selectedNews = newsSelectedAction.inputs
 
-    // MARK: - Actions
+    // MARK: Actions
 
     lazy var newsSelectedAction = Action<News, Void> { [unowned self] news in
         self.router.rx.trigger(.newsDetail(news))
     }
 
-    // MARK: - Outputs
+    // MARK: Outputs
 
-    lazy var news = newsObservable.map { $0.articles }
-    lazy var title = newsObservable.map { $0.title }
+    private(set) lazy var news = newsObservable.map { $0.articles }
+    private(set) lazy var title = newsObservable.map { $0.title }
 
     let newsObservable: Observable<(title: String, articles: [News])>
 
-    // MARK: - Private
+    // MARK: Stored properties
 
     private let newsService: NewsService
     private let router: UnownedRouter<NewsRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(newsService: NewsService, router: UnownedRouter<NewsRoute>) {
         self.newsService = newsService

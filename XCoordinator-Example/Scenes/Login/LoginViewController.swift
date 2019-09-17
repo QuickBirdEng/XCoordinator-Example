@@ -13,15 +13,15 @@ import UIKit
 class LoginViewController: UIViewController, BindableType {
     var viewModel: LoginViewModel!
 
-    // MARK: - Views
+    // MARK: Views
 
     @IBOutlet private var loginButton: UIButton!
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
     
     private let disposeBag = DisposeBag()
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,11 +29,12 @@ class LoginViewController: UIViewController, BindableType {
         title = "Login"
     }
 
-    // MARK: - BindableType
+    // MARK: BindableType
 
     func bindViewModel() {
         loginButton.rx.tap
             .bind(to: viewModel.input.loginTrigger)
             .disposed(by: disposeBag)
     }
+
 }

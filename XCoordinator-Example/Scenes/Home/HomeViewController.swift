@@ -13,17 +13,17 @@ import UIKit
 class HomeViewController: UIViewController, BindableType {
     var viewModel: HomeViewModel!
 
-    // MARK: - Views
+    // MARK: Views
 
     @IBOutlet private var logoutButton: UIButton!
     @IBOutlet private var usersButton: UIButton!
     @IBOutlet private var aboutButton: UIButton!
     
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let disposeBag = DisposeBag()
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class HomeViewController: UIViewController, BindableType {
         title = "Home"
     }
 
-    // MARK: - BindableType
+    // MARK: BindableType
 
     func bindViewModel() {
         logoutButton.rx.tap
@@ -48,4 +48,5 @@ class HomeViewController: UIViewController, BindableType {
         
         viewModel.registerPeek(for: usersButton)
     }
+
 }

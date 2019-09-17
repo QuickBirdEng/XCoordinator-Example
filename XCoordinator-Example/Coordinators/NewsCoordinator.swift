@@ -16,13 +16,13 @@ enum NewsRoute: Route {
 
 class NewsCoordinator: NavigationCoordinator<NewsRoute> {
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init() {
         super.init(initialRoute: .news)
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func prepareTransition(for route: NewsRoute) -> NavigationTransition {
         switch route {
@@ -47,4 +47,5 @@ class NewsCoordinator: NavigationCoordinator<NewsRoute> {
             return .dismissToRoot()
         }
     }
+
 }

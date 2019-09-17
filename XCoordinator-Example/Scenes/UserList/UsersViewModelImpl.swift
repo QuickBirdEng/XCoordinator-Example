@@ -12,29 +12,30 @@ import XCoordinator
 
 class UsersViewModelImpl: UsersViewModel, UsersViewModelInput, UsersViewModelOutput {
 
-    // MARK: - Inputs
+    // MARK: Inputs
 
     private(set) lazy var showUserTrigger = showUserAction.inputs
 
-    // MARK: - Actions
+    // MARK: Actions
 
     private lazy var showUserAction = Action<String, Void> { [unowned self] username in
         self.router.rx.trigger(.user(username))
     }
 
-    // MARK: - Outputs
+    // MARK: Outputs
 
     let usernames: Observable<[String]> = .just([
         "Stefan", "Malte", "Sebi", "Patrick", "Julian", "Quirin", "Paul", "Michael", "Eduardo", "Lizzie"
     ])
 
-    // MARK: - Private
+    // MARK: Stored properties
 
     private let router: UnownedRouter<UserListRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(router: UnownedRouter<UserListRoute>) {
         self.router = router
     }
+
 }

@@ -10,12 +10,12 @@ import XCoordinator
 
 class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let newsRouter: StrongRouter<NewsRoute>
     private let userListRouter: StrongRouter<UserListRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
          userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
@@ -25,7 +25,7 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
         super.init(master: userListRouter, detail: newsRouter)
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func prepareTransition(for route: HomeRoute) -> SplitTransition {
         switch route {
@@ -35,4 +35,5 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
             return .show(userListRouter)
         }
     }
+
 }

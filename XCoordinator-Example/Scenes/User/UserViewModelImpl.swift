@@ -12,12 +12,12 @@ import XCoordinator
 
 class UserViewModelImpl: UserViewModel, UserViewModelInput, UserViewModelOutput {
 
-    // MARK: - Inputs
+    // MARK: Inputs
 
     private(set) lazy var alertTrigger = alertAction.inputs
     private(set) lazy var closeTrigger = closeAction.inputs
 
-    // MARK: - Actions
+    // MARK: Actions
 
     private lazy var alertAction = CocoaAction { [unowned self] in
         self.router.rx.trigger(.alert(title: "Hey", message: "You are awesome!"))
@@ -27,15 +27,15 @@ class UserViewModelImpl: UserViewModel, UserViewModelInput, UserViewModelOutput 
         self.router.rx.trigger(.users)
     }
 
-    // MARK: - Outputs
+    // MARK: Outputs
 
     let username: Observable<String>
 
-    // MARK: - Private
+    // MARK: Stored properties
 
     private let router: UnownedRouter<UserRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(router: UnownedRouter<UserRoute>, username: String) {
         self.router = router

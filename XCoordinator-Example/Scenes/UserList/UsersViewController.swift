@@ -13,25 +13,25 @@ import UIKit
 class UsersViewController: UIViewController, BindableType {
     var viewModel: UsersViewModel!
 
-    // MARK: - Views
+    // MARK: Views
 
     @IBOutlet private var tableView: UITableView!
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let disposeBag = DisposeBag()
     private let cellIdentifier = String(describing: DetailTableViewCell.self)
 
-    // MARK: - Init
+    // MARK: Initialization
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureTableViewCell()
-        configureNavBar()
+        configureNavigationBar()
     }
 
-    // MARK: - BindableType
+    // MARK: BindableType
 
     func bindViewModel() {
         viewModel.output.usernames
@@ -46,13 +46,14 @@ class UsersViewController: UIViewController, BindableType {
             .disposed(by: disposeBag)
     }
 
-    // MARK: - Helpers
+    // MARK: Helpers
 
     private func configureTableViewCell() {
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
 
-    private func configureNavBar() {
+    private func configureNavigationBar() {
         title = "Users"
     }
+
 }

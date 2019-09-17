@@ -13,24 +13,25 @@ import UIKit
 class NewsDetailViewController: UIViewController, BindableType {
     var viewModel: NewsDetailViewModel!
 
-    // MARK: - Views
+    // MARK: Views
 
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var contentTextView: UITextView!
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let disposeBag = DisposeBag()
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+
         contentTextView.setContentOffset(.zero, animated: false)
     }
 
-    // MARK: - BindableType
+    // MARK: BindableType
 
     func bindViewModel() {
         viewModel.output.news
@@ -48,4 +49,5 @@ class NewsDetailViewController: UIViewController, BindableType {
             .bind(to: imageView.rx.image)
             .disposed(by: disposeBag)
     }
+
 }

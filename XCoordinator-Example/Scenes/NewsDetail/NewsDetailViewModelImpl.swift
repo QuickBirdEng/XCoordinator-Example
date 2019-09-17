@@ -12,11 +12,11 @@ import RxSwift
 
 class NewsDetailViewModelImpl: NewsDetailViewModel, NewsDetailViewModelInput, NewsDetailViewModelOutput {
 
-    // MARK: - Outputs
+    // MARK: Outputs
 
     let news: Observable<News>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(news: News) {
         self.news = .just(news)

@@ -13,25 +13,25 @@ import UIKit
 class UserViewController: UIViewController, BindableType {
     var viewModel: UserViewModel!
 
-    // MARK: - Views
+    // MARK: Views
 
     @IBOutlet private var username: UILabel!
     @IBOutlet private var showAlertButton: UIButton!
     private var closeBarButtonItem: UIBarButtonItem!
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let disposeBag = DisposeBag()
 
-    // MARK: - Init
+    // MARK: Initialization
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureNavBar()
+        configureNavigationBar()
     }
 
-    // MARK: - BindableType
+    // MARK: BindableType
 
     func bindViewModel() {
         viewModel.output.username
@@ -47,10 +47,11 @@ class UserViewController: UIViewController, BindableType {
             .disposed(by: disposeBag)
     }
 
-    // MARK: - Helpers
+    // MARK: Helpers
 
-    private func configureNavBar() {
+    private func configureNavigationBar() {
         closeBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: nil)
         navigationItem.leftBarButtonItem = closeBarButtonItem
     }
+
 }

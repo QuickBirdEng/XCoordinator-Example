@@ -17,20 +17,20 @@ enum AppRoute: Route {
 
 class AppCoordinator: NavigationCoordinator<AppRoute> {
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     // We need to keep a reference to the HomeCoordinator
     // as it is not held by any viewModel or viewController
     private var home: Presentable?
     private var homeRouteTriggerCount = 0
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init() {
         super.init(initialRoute: .login)
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func prepareTransition(for route: AppRoute) -> NavigationTransition {
         switch route {
@@ -48,13 +48,17 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             let presentable = presentables[homeRouteTriggerCount % presentables.count]()
             homeRouteTriggerCount = (homeRouteTriggerCount + 1) % presentables.count
             self.home = presentable
-            return .deprecatedPresent(presentable, animation: .fade)
+            return .presentFullScreen(presentable, animation: .fade)
         case .newsDetail(let news):
-            return deepLink(AppRoute.home, HomeRoute.news, NewsRoute.newsDetail(news))
+            return .multiple(
+                .dismissAll(),
+                .popToRoot(),
+                deepLink(AppRoute.home, HomeRoute.news, NewsRoute.newsDetail(news))
+            )
         }
     }
 
-    // MARK: - Methods
+    // MARK: Methods
 
     func notificationReceived() {
         guard let news = MockNewsService().mostRecentNews().articles.randomElement() else {
@@ -62,4 +66,5 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
         }
         self.trigger(.newsDetail(news))
     }
+
 }

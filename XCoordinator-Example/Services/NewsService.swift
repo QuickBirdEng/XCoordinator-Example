@@ -23,23 +23,26 @@ protocol NewsService {
 }
 
 class MockNewsService: NewsService {
-    let mockNews: [News] = [
-        News(title: "Example article 0", subtitle: "Stefan", image: UIImage.from(color: .black, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 1", subtitle: "Malte", image: UIImage.from(color: .blue, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 2", subtitle: "Julian", image: UIImage.from(color: .green, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 3", subtitle: "Niko", image: UIImage.from(color: .yellow, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 4", subtitle: "Paul", image: UIImage.from(color: .orange, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 5", subtitle: "Patrick", image: UIImage.from(color: .red, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 6", subtitle: "Sebastian", image: UIImage.from(color: .white, size: CGSize(width: 44, height: 44)), content: loremIpsum)
+
+    private let mockNews: [News] = [
+        News(title: "Example article 0", subtitle: "Stefan", image: .color(.black, size: CGSize(width: 44, height: 44)), content: loremIpsum),
+        News(title: "Example article 1", subtitle: "Malte", image: .color(.blue, size: CGSize(width: 44, height: 44)), content: loremIpsum),
+        News(title: "Example article 2", subtitle: "Julian", image: .color(.green, size: CGSize(width: 44, height: 44)), content: loremIpsum),
+        News(title: "Example article 3", subtitle: "Niko", image: .color(.yellow, size: CGSize(width: 44, height: 44)), content: loremIpsum),
+        News(title: "Example article 4", subtitle: "Paul", image: .color(.orange, size: CGSize(width: 44, height: 44)), content: loremIpsum),
+        News(title: "Example article 5", subtitle: "Patrick", image: .color(.red, size: CGSize(width: 44, height: 44)), content: loremIpsum),
+        News(title: "Example article 6", subtitle: "Sebastian", image: .color(.white, size: CGSize(width: 44, height: 44)), content: loremIpsum)
     ]
 
     func mostRecentNews() -> (title: String, articles: [News]) {
         return (title: "QuickBird Studios Blog", articles: mockNews)
     }
+
 }
 
 extension UIImage {
-    static func from(color: UIColor, size: CGSize = .init(width: 1, height: 1)) -> UIImage! {
+
+    static func color(_ color: UIColor, size: CGSize = .init(width: 1, height: 1)) -> UIImage! {
         let rect = CGRect(origin: .zero, size: size)
         UIGraphicsBeginImageContext(rect.size)
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
@@ -48,6 +51,7 @@ extension UIImage {
         context.fill(rect)
         return UIGraphicsGetImageFromCurrentImageContext()
     }
+
 }
 
 let loremIpsum = """

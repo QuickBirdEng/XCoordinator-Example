@@ -14,6 +14,7 @@ import UIKit
 import XCoordinator
 
 extension Reactive where Base: Presentable {
+
     public var dismissal: Observable<Void>! {
         guard let viewController = base.viewController else {
             return nil
@@ -26,6 +27,7 @@ extension Reactive where Base: Presentable {
                 return viewController.isBeingDismissed || viewController.isMovingFromParent
             }
     }
+
 }
 
 #endif

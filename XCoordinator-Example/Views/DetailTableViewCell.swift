@@ -10,7 +10,7 @@ import UIKit
 
 class DetailTableViewCell: UITableViewCell {
 
-    // MARK: - Init
+    // MARK: Initialization
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
@@ -20,7 +20,7 @@ class DetailTableViewCell: UITableViewCell {
         super.init(coder: aDecoder)
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
@@ -29,4 +29,5 @@ class DetailTableViewCell: UITableViewCell {
             self.backgroundColor = highlighted ? .lightGray : .white
         }
     }
+
 }

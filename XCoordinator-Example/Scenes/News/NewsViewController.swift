@@ -13,16 +13,16 @@ import UIKit
 class NewsViewController: UIViewController, BindableType {
     var viewModel: NewsViewModel!
 
-    // MARK: - Views
+    // MARK: Views
 
     @IBOutlet private var tableView: UITableView!
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let disposeBag = DisposeBag()
     private let tableViewCellIdentifier = String(describing: DetailTableViewCell.self)
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class NewsViewController: UIViewController, BindableType {
         tableView.rowHeight = 44
     }
 
-    // MARK: - BindableType
+    // MARK: BindableType
 
     func bindViewModel() {
         viewModel.output.news
@@ -51,4 +51,5 @@ class NewsViewController: UIViewController, BindableType {
             .bind(to: navigationItem.rx.title)
             .disposed(by: disposeBag)
     }
+
 }

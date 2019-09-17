@@ -18,13 +18,13 @@ enum UserRoute: Route {
 
 class UserCoordinator: NavigationCoordinator<UserRoute> {
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(user: String) {
         super.init(initialRoute: .user(user))
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func prepareTransition(for route: UserRoute) -> NavigationTransition {
         switch route {
@@ -46,14 +46,12 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
         }
     }
 
-    // MARK: - Overrides
-
     override func presented(from presentable: Presentable?) {
         super.presented(from: presentable)
         addPushGestureRecognizer(to: rootViewController)
     }
 
-    // MARK: - Methods
+    // MARK: Helpers
 
     private func addPushGestureRecognizer(to container: Container) {
         let view = container.view
@@ -77,9 +75,13 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
             completion: nil
         )
     }
+
 }
 
+// MARK: - Private extensions
+
 extension UIColor {
+
     fileprivate static func random(alpha: CGFloat? = 1) -> UIColor {
         return UIColor(
             red: CGFloat.random(in: 0...1),
@@ -88,4 +90,5 @@ extension UIColor {
             alpha: alpha ?? CGFloat.random(in: 0...1)
         )
     }
+
 }

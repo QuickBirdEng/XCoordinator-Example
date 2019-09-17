@@ -11,19 +11,25 @@ import XCoordinator
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    let window: UIWindow! = UIWindow()
-    let router = AppCoordinator().strongRouter
+
+    // MARK: Stored properties
+
+    private lazy var mainWindow = UIWindow()
+    private let router = AppCoordinator().strongRouter
+
+    // MARK: UIApplicationDelegate
 
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        router.setRoot(for: window)
+        configureUI()
+        router.setRoot(for: mainWindow)
         return true
     }
-}
 
-extension Transition {
-    static func deprecatedPresent(_ presentable: Presentable, animation: Animation? = nil) -> Transition {
-        presentable.viewController?.modalPresentationStyle = .fullScreen
-        return .present(presentable, animation: animation)
+    // MARK: Helpers
+
+    private func configureUI() {
+        UIView.appearance().overrideUserInterfaceStyle = .light
     }
+
 }

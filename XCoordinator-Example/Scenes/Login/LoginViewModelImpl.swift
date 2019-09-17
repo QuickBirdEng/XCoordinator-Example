@@ -12,21 +12,21 @@ import XCoordinator
 
 class LoginViewModelImpl: LoginViewModel, LoginViewModelInput, LoginViewModelOutput {
 
-    // MARK: - Inputs
+    // MARK: Inputs
 
     private(set) lazy var loginTrigger = loginAction.inputs
 
-    // MARK: - Actions
+    // MARK: Actions
 
     private lazy var loginAction = CocoaAction { [unowned self] in
         self.router.rx.trigger(.home)
     }
 
-    // MARK: - Private
+    // MARK: Stored properties
 
     private let router: UnownedRouter<AppRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(router: UnownedRouter<AppRoute>) {
         self.router = router

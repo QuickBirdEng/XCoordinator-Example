@@ -10,12 +10,12 @@ import XCoordinator
 
 class HomePageCoordinator: PageCoordinator<HomeRoute> {
 
-    // MARK: - Stored properties
+    // MARK: Stored properties
 
     private let newsRouter: StrongRouter<NewsRoute>
     private let userListRouter: StrongRouter<UserListRoute>
 
-    // MARK: - Init
+    // MARK: Initialization
 
     init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
          userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
@@ -29,7 +29,7 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
         )
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func prepareTransition(for route: HomeRoute) -> PageTransition {
         switch route {
@@ -39,4 +39,5 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
             return .set(userListRouter, direction: .reverse)
         }
     }
+
 }

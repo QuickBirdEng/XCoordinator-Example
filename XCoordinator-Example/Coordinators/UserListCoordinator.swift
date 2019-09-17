@@ -19,13 +19,13 @@ enum UserListRoute: Route {
 
 class UserListCoordinator: NavigationCoordinator<UserListRoute> {
 
-    // MARK: - Init
+    // MARK: Initialization
     
     init() {
         super.init(initialRoute: .home)
     }
 
-    // MARK: - Overrides
+    // MARK: Overrides
 
     override func prepareTransition(for route: UserListRoute) -> NavigationTransition {
         switch route {
@@ -41,9 +41,13 @@ class UserListCoordinator: NavigationCoordinator<UserListRoute> {
             return .push(viewController, animation: .fade)
         case .user(let username):
             let coordinator = UserCoordinator(user: username)
-            return .deprecatedPresent(coordinator, animation: .default)
+            return .present(coordinator, animation: .default)
         case .registerUsersPeek(let source):
-            return registerPeek(for: source, route: .users)
+            if #available(iOS 13.0, *) {
+                return .none()
+            } else {
+                return registerPeek(for: source, route: .users)
+            }
         case .logout:
             return .dismiss()
         case .about:
@@ -51,4 +55,5 @@ class UserListCoordinator: NavigationCoordinator<UserListRoute> {
             return .none()
         }
     }
+
 }
