@@ -1,6 +1,6 @@
 //
 //  UsersViewModelImpl.swift
-//  XCoordinator_Example
+//  XCoordinator-Example
 //
 //  Created by Paul Kraft on 20.11.18.
 //  Copyright © 2018 QuickBird Studios. All rights reserved.

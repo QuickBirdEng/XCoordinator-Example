@@ -1,6 +1,6 @@
 //
 //  HomeSplitCoordinator.swift
-//  XCoordinator_Example
+//  XCoordinator-Example
 //
 //  Created by Paul Kraft on 30.07.18.
 //  Copyright © 2018 QuickBird Studios. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  AboutCoordinator.swift
-//  XCoordinator_Example
+//  XCoordinator-Example
 //
 //  Created by denis on 29/05/2019.
 //  Copyright © 2019 QuickBird Studios. All rights reserved.

@@ -1,6 +1,6 @@
 //
 //  Animation+Modal.swift
-//  XCoordinator_Example
+//  XCoordinator-Example
 //
 //  Created by Paul Kraft on 19.01.19.
 //  Copyright © 2019 QuickBird Studios. All rights reserved.
