@@ -38,7 +38,6 @@ class AboutViewController: UIViewController, BindableType {
 
         title = "XCoordinator"
         navigationItem.rightBarButtonItem = openWebsiteButton
-        view.backgroundColor = .black
         setupWebView()
     }
 

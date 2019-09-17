@@ -19,9 +19,6 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
 
     // MARK: Stored properties
 
-    // We need to keep a reference to the HomeCoordinator
-    // as it is not held by any viewModel or viewController
-    private var home: Presentable?
     private var homeRouteTriggerCount = 0
 
     // MARK: Initialization
@@ -47,7 +44,6 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             ]
             let presentable = presentables[homeRouteTriggerCount % presentables.count]()
             homeRouteTriggerCount = (homeRouteTriggerCount + 1) % presentables.count
-            self.home = presentable
             return .presentFullScreen(presentable, animation: .fade)
         case .newsDetail(let news):
             return .multiple(

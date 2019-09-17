@@ -19,7 +19,8 @@ class AboutCoordinator: NavigationCoordinator<AboutRoute> {
     // MARK: Initialization
     
     init(rootViewController: UINavigationController) {
-        super.init(rootViewController: rootViewController, initialRoute: .home)
+        super.init(rootViewController: rootViewController, initialRoute: nil)
+        trigger(.home)
     }
 
     // MARK: Overrides
@@ -30,7 +31,7 @@ class AboutCoordinator: NavigationCoordinator<AboutRoute> {
             let viewController = AboutViewController()
             let viewModel = AboutViewModelImpl(router: unownedRouter)
             viewController.bind(to: viewModel)
-            return .push(viewController, animation: .navigation)
+            return .push(viewController)
         case .website:
             let url = URL(string: "https://quickbirdstudios.com/")!
             return Transition(presentables: [], animationInUse: nil) { _, _, completion in
