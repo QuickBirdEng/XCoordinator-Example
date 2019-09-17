@@ -158,6 +158,7 @@
 		9BD3EC0A2330F372005861BF /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		9BD3EC0B2330F372005861BF /* AboutViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModelImpl.swift; sourceTree = "<group>"; };
 		9BD3EC0C2330F372005861BF /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
+		9BD5395523315E150014DF01 /* XCoordinator-Example.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "XCoordinator-Example.xctestplan"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -236,6 +237,7 @@
 		9B56574E2315FA7E00F4F4F7 /* XCoordinator-ExampleTests */ = {
 			isa = PBXGroup;
 			children = (
+				9BD5395523315E150014DF01 /* XCoordinator-Example.xctestplan */,
 				9BD3EBFA2330D84F005861BF /* AnimationTests.swift */,
 				9BD3EBFB2330D84F005861BF /* TestAnimation.swift */,
 				9BD3EBF82330D84F005861BF /* TestRoute.swift */,
@@ -966,8 +968,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/quickbirdstudios/XCoordinator.git";
 			requirement = {
-				branch = v2.0.0;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

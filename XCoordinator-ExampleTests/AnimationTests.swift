@@ -125,7 +125,6 @@ class AnimationTests: XCTestCase {
                                                            transition: (Animation) -> C.TransitionType) {
         let animationExpectation = expectation(description: "Animation \(Date().timeIntervalSince1970)")
         let completionExpectation = expectation(description: "Completion \(Date().timeIntervalSince1970)")
-        print(#function, animationExpectation)
         let testAnimation = TestAnimation.static(presentation: animationExpectation, dismissal: animationExpectation)
         let t = transition(testAnimation)
         coordinator.performTransition(t, with: TransitionOptions(animated: true)) {
@@ -139,7 +138,6 @@ class AnimationTests: XCTestCase {
                                                                 transition: (Animation) -> C.TransitionType) {
         let animationExpectation = expectation(description: "Animation \(Date().timeIntervalSince1970)")
         let completionExpectation = expectation(description: "Completion \(Date().timeIntervalSince1970)")
-        print(#function, animationExpectation)
         let testAnimation = TestAnimation.interactive(
             presentation: animationExpectation,
             dismissal: animationExpectation

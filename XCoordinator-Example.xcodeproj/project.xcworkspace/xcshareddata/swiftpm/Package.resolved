@@ -23,9 +23,9 @@
         "package": "XCoordinator",
         "repositoryURL": "https://github.com/quickbirdstudios/XCoordinator.git",
         "state": {
-          "branch": "v2.0.0",
-          "revision": "19e72ea6456597b78485a73a26b6f55ba24d3787",
-          "version": null
+          "branch": null,
+          "revision": "16488089cf72d04a800378eef1d1ad800553f0ab",
+          "version": "2.0.1"
         }
       }
     ]
