@@ -10,7 +10,8 @@ import UIKit
 import XCoordinator
 
 enum AboutRoute: Route {
-    
+    case home
+    case website
 }
 
 class AboutCoordinator: NavigationCoordinator<AboutRoute> {
@@ -18,13 +19,32 @@ class AboutCoordinator: NavigationCoordinator<AboutRoute> {
     // MARK: Initialization
     
     init(rootViewController: UINavigationController) {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .green
-        super.init(rootViewController: rootViewController, root: viewController)
+        super.init(rootViewController: rootViewController, initialRoute: .home)
     }
 
     // MARK: Overrides
     
-    override func prepareTransition(for route: AboutRoute) -> NavigationTransition {}
+    override func prepareTransition(for route: AboutRoute) -> NavigationTransition {
+        switch route {
+        case .home:
+            let viewController = AboutViewController()
+            let viewModel = AboutViewModelImpl(router: unownedRouter)
+            viewController.bind(to: viewModel)
+            return .push(viewController, animation: .navigation)
+        case .website:
+            let url = URL(string: "https://quickbirdstudios.com/")!
+            return Transition(presentables: [], animationInUse: nil) { _, _, completion in
+                UIApplication.shared.open(url)
+                completion?()
+            }
+        }
+    }
+
+    // MARK: Actions
+
+    @objc
+    private func openWebsite() {
+        trigger(.website)
+    }
     
 }

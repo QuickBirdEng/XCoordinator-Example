@@ -36,7 +36,7 @@ class UserListCoordinator: NavigationCoordinator<UserListRoute> {
             return .push(viewController)
         case .users:
             let viewController = UsersViewController.instantiateFromNib()
-            let viewModel = UsersViewModelImpl(router: unownedRouter)
+            let viewModel = UsersViewModelImpl(userService: MockUserService(), router: unownedRouter)
             viewController.bind(to: viewModel)
             return .push(viewController, animation: .fade)
         case .user(let username):

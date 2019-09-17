@@ -11,11 +11,11 @@ import RxSwift
 import XCoordinator
 
 protocol UsersViewModelInput {
-    var showUserTrigger: AnyObserver<String> { get }
+    var showUserTrigger: AnyObserver<User> { get }
 }
 
 protocol UsersViewModelOutput {
-    var usernames: Observable<[String]> { get }
+    var users: Observable<[User]> { get }
 }
 
 protocol UsersViewModel {

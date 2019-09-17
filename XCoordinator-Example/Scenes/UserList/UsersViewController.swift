@@ -34,14 +34,14 @@ class UsersViewController: UIViewController, BindableType {
     // MARK: BindableType
 
     func bindViewModel() {
-        viewModel.output.usernames
+        viewModel.output.users
         .bind(to: tableView.rx.items(cellIdentifier: cellIdentifier)) { _, element, cell in
-            cell.textLabel?.text = element
+            cell.textLabel?.text = element.name
             cell.selectionStyle = .none
         }
         .disposed(by: disposeBag)
 
-        tableView.rx.modelSelected(String.self)
+        tableView.rx.modelSelected(User.self)
             .bind(to: viewModel.input.showUserTrigger)
             .disposed(by: disposeBag)
     }

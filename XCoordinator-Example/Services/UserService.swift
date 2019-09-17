@@ -6,8 +6,18 @@
 //  Copyright © 2019 QuickBird Studios. All rights reserved.
 //
 
-import RxSwift
-
 protocol UserService {
-    func allUsers() -> Observable<[User]>
+    func allUsers() -> [User]
+}
+
+class MockUserService: UserService {
+    func allUsers() -> [User] {
+        let names = [
+            "Stefan", "Malte", "Sebi",
+            "Niko", "Balazs", "Patrick",
+            "Julian", "Quirin", "Paul",
+            "Michael", "Eduardo", "Lizzie"
+        ]
+        return names.map(User.init)
+    }
 }

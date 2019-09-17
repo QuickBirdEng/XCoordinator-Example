@@ -17,18 +17,19 @@ protocol NewsService {
 
 class MockNewsService: NewsService {
 
-    private let mockNews: [News] = [
-        News(title: "Example article 0", subtitle: "Stefan", image: .color(.black, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 1", subtitle: "Malte", image: .color(.blue, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 2", subtitle: "Julian", image: .color(.green, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 3", subtitle: "Niko", image: .color(.yellow, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 4", subtitle: "Paul", image: .color(.orange, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 5", subtitle: "Patrick", image: .color(.red, size: CGSize(width: 44, height: 44)), content: loremIpsum),
-        News(title: "Example article 6", subtitle: "Sebastian", image: .color(.white, size: CGSize(width: 44, height: 44)), content: loremIpsum)
-    ]
+    private let userService = MockUserService()
+
+    private let images = [UIColor.black, .blue, .green, .yellow, .orange, .red, .white]
+        .map { UIImage.color($0, size: CGSize(width: 44, height: 44))! }
 
     func mostRecentNews() -> (title: String, articles: [News]) {
-        return (title: "QuickBird Studios Blog", articles: mockNews)
+        let articles = userService.allUsers().enumerated().map { index, user -> News in
+            News(title: "Article \(index)",
+                subtitle: user.name,
+                image: images[index % images.count],
+                content: loremIpsum)
+        }
+        return (title: "QuickBird Studios Blog", articles: articles)
     }
 
 }

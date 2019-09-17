@@ -1,5 +1,5 @@
 //
-//  News.swift
+//  User.swift
 //  XCoordinator-Example
 //
 //  Created by Paul Kraft on 17.09.19.
@@ -7,11 +7,7 @@
 //
 
 import Foundation
-import class UIKit.UIImage
 
-struct News {
-    var title: String
-    var subtitle: String
-    var image: UIImage
-    var content: String
+struct User {
+    var name: String
 }

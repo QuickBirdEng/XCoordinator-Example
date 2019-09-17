@@ -67,6 +67,10 @@
 		9BD3EC022330D84F005861BF /* TestAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EBFB2330D84F005861BF /* TestAnimation.swift */; };
 		9BD3EC042330DA3A005861BF /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC032330DA3A005861BF /* UserService.swift */; };
 		9BD3EC072330DA74005861BF /* News.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC062330DA74005861BF /* News.swift */; };
+		9BD3EC092330EFDF005861BF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC082330EFDF005861BF /* User.swift */; };
+		9BD3EC0E2330F372005861BF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC0A2330F372005861BF /* AboutViewController.swift */; };
+		9BD3EC0F2330F372005861BF /* AboutViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC0B2330F372005861BF /* AboutViewModelImpl.swift */; };
+		9BD3EC102330F372005861BF /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC0C2330F372005861BF /* AboutViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -150,6 +154,10 @@
 		9BD3EBFB2330D84F005861BF /* TestAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestAnimation.swift; sourceTree = "<group>"; };
 		9BD3EC032330DA3A005861BF /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		9BD3EC062330DA74005861BF /* News.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = News.swift; sourceTree = "<group>"; };
+		9BD3EC082330EFDF005861BF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		9BD3EC0A2330F372005861BF /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		9BD3EC0B2330F372005861BF /* AboutViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModelImpl.swift; sourceTree = "<group>"; };
+		9BD3EC0C2330F372005861BF /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +293,7 @@
 		9B5657782315FB3500F4F4F7 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				9BD3EC132330F397005861BF /* About */,
 				9B5657792315FB3500F4F4F7 /* Home */,
 				9B5657922315FB3500F4F4F7 /* Login */,
 				9B56578D2315FB3500F4F4F7 /* News */,
@@ -405,8 +414,19 @@
 			isa = PBXGroup;
 			children = (
 				9BD3EC062330DA74005861BF /* News.swift */,
+				9BD3EC082330EFDF005861BF /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		9BD3EC132330F397005861BF /* About */ = {
+			isa = PBXGroup;
+			children = (
+				9BD3EC0A2330F372005861BF /* AboutViewController.swift */,
+				9BD3EC0B2330F372005861BF /* AboutViewModelImpl.swift */,
+				9BD3EC0C2330F372005861BF /* AboutViewModel.swift */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -557,6 +577,7 @@
 			files = (
 				9B5657CA2315FB3500F4F4F7 /* LoginViewController.swift in Sources */,
 				9B5657BA2315FB3500F4F4F7 /* NewsDetailViewModel.swift in Sources */,
+				9BD3EC0E2330F372005861BF /* AboutViewController.swift in Sources */,
 				9B5657B82315FB3500F4F4F7 /* NewsDetailViewModelImpl.swift in Sources */,
 				9BD3EBF42330CE46005861BF /* Transitions.swift in Sources */,
 				9B5657B62315FB3500F4F4F7 /* HomeViewModelImpl.swift in Sources */,
@@ -567,6 +588,7 @@
 				9B5657B32315FB3500F4F4F7 /* HomeViewModel.swift in Sources */,
 				9B5657A72315FB3500F4F4F7 /* AppCoordinator.swift in Sources */,
 				9B5657AD2315FB3500F4F4F7 /* HomePageCoordinator.swift in Sources */,
+				9BD3EC0F2330F372005861BF /* AboutViewModelImpl.swift in Sources */,
 				9B5657C82315FB3500F4F4F7 /* LoginViewModel.swift in Sources */,
 				9B5657AF2315FB3500F4F4F7 /* NewsService.swift in Sources */,
 				9B5657D32315FB3500F4F4F7 /* Presentable+Rx.swift in Sources */,
@@ -585,6 +607,7 @@
 				9B5657B72315FB3500F4F4F7 /* NewsDetailViewController.swift in Sources */,
 				9B5657C72315FB3500F4F4F7 /* LoginViewModelImpl.swift in Sources */,
 				9B5657CB2315FB3500F4F4F7 /* BindableType.swift in Sources */,
+				9BD3EC102330F372005861BF /* AboutViewModel.swift in Sources */,
 				9B5657D12315FB3500F4F4F7 /* Animation+Fade.swift in Sources */,
 				9B5657B22315FB3500F4F4F7 /* AppDelegate.swift in Sources */,
 				9B5657BB2315FB3500F4F4F7 /* UserViewModel.swift in Sources */,
@@ -597,6 +620,7 @@
 				9B5657BE2315FB3500F4F4F7 /* UserViewController.swift in Sources */,
 				9BD3EC042330DA3A005861BF /* UserService.swift in Sources */,
 				9B5657CD2315FB3500F4F4F7 /* DetailTableViewCell.swift in Sources */,
+				9BD3EC092330EFDF005861BF /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

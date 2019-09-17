@@ -18,23 +18,23 @@ class UsersViewModelImpl: UsersViewModel, UsersViewModelInput, UsersViewModelOut
 
     // MARK: Actions
 
-    private lazy var showUserAction = Action<String, Void> { [unowned self] username in
-        self.router.rx.trigger(.user(username))
+    private lazy var showUserAction = Action<User, Void> { [unowned self] user in
+        self.router.rx.trigger(.user(user.name))
     }
 
     // MARK: Outputs
 
-    let usernames: Observable<[String]> = .just([
-        "Stefan", "Malte", "Sebi", "Patrick", "Julian", "Quirin", "Paul", "Michael", "Eduardo", "Lizzie"
-    ])
+    private(set) lazy var users = Observable.just(userService.allUsers())
 
     // MARK: Stored properties
 
+    private let userService: UserService
     private let router: UnownedRouter<UserListRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<UserListRoute>) {
+    init(userService: UserService, router: UnownedRouter<UserListRoute>) {
+        self.userService = userService
         self.router = router
     }
 
