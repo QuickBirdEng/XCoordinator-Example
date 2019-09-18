@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import XCoordinator
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
