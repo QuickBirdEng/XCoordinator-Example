@@ -1,0 +1,36 @@
+{
+  "configurations" : [
+    {
+      "id" : "1ED5FC9F-923F-4E5B-B12A-422420D973BC",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:XCoordinator-Example.xcodeproj",
+      "identifier" : "9B5657342315FA7B00F4F4F7",
+      "name" : "XCoordinator-Example"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:XCoordinator-Example.xcodeproj",
+        "identifier" : "9B56574A2315FA7E00F4F4F7",
+        "name" : "XCoordinator-ExampleTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:XCoordinator-Example.xcodeproj",
+        "identifier" : "9B5657552315FA7E00F4F4F7",
+        "name" : "XCoordinator-ExampleUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Action",
+        "repositoryURL": "https://github.com/RxSwiftCommunity/Action.git",
+        "state": {
+          "branch": null,
+          "revision": "cdade63f7bbe1f5e1eff7779e5858a796dc2c001",
+          "version": "4.0.1"
+        }
+      },
+      {
+        "package": "RxSwift",
+        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
+        "state": {
+          "branch": null,
+          "revision": "b3e888b4972d9bc76495dd74d30a8c7fad4b9395",
+          "version": "5.0.1"
+        }
+      },
+      {
+        "package": "XCoordinator",
+        "repositoryURL": "https://github.com/quickbirdstudios/XCoordinator.git",
+        "state": {
+          "branch": null,
+          "revision": "cbbde30403422c9209e6f582315f6231da3621c9",
+          "version": "2.0.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
