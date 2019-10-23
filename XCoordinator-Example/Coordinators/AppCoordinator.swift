@@ -55,6 +55,17 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
                     self.trigger(.home(HomePageCoordinator().strongRouter))
                 }
             )
+            alert.addAction(
+                .init(title: "Random", style: .default) { [unowned self] _ in
+                    let routers: [() -> StrongRouter<HomeRoute>] = [
+                        { HomeTabCoordinator().strongRouter },
+                        { HomeSplitCoordinator().strongRouter },
+                        { HomeTabCoordinator().strongRouter }
+                    ]
+                    let router = routers.randomElement().map { $0() }
+                    self.trigger(.home(router))
+                }
+            )
             return .present(alert)
         case .newsDetail(let news):
             return .multiple(
