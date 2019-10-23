@@ -23,8 +23,10 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
         self.userListRouter = userListRouter
         
         super.init(
-            rootViewController: .init(),
-            pages: [newsRouter, userListRouter], loop: true,
+            rootViewController: .init(transitionStyle: .scroll,
+                                      navigationOrientation: .horizontal,
+                                      options: nil),
+            pages: [userListRouter, newsRouter], loop: false,
             set: userListRouter, direction: .forward
         )
     }
