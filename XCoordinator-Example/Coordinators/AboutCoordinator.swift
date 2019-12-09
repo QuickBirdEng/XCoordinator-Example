@@ -15,6 +15,12 @@ enum AboutRoute: Route {
 }
 
 class AboutCoordinator: NavigationCoordinator<AboutRoute> {
+
+    // MARK: Computed properties
+
+    override var viewController: UIViewController! {
+        rootViewController.viewControllers.first { $0 is AboutViewController }
+    }
     
     // MARK: Initialization
     
