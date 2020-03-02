@@ -42,6 +42,8 @@ class UsersViewController: UIViewController, UITableViewDelegate, BindableType {
             cell.selectionStyle = .none
             return cell
         }
+        
+        tableView.delegate = self
     }
 
     // MARK: BindableType
