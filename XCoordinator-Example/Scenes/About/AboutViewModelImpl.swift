@@ -7,22 +7,14 @@
 //
 
 import Foundation
-import RxSwift
-import Action
 import XCoordinator
+import Combine
 
 class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOutput {
-
     // MARK: Inputs
-
-    private(set) lazy var openWebsiteTrigger = openWebsiteAction.inputs
-
-    // MARK: Actions
-
-    private lazy var openWebsiteAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.website)
-    }
-
+    
+    private(set) var openWebsiteTrigger = PassthroughSubject<Void, Never>()
+    
     // MARK: Outputs
 
     let url = URL(string: "https://github.com/quickbirdstudios/XCoordinator")!
@@ -30,11 +22,14 @@ class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOut
     // MARK: Stored properties
 
     private let router: UnownedRouter<AboutRoute>
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Initialization
 
     init(router: UnownedRouter<AboutRoute>) {
         self.router = router
+        openWebsiteTrigger.sink { [unowned self] _ in
+            self.router.trigger(.website)
+        }.store(in: &cancellables)
     }
-
 }

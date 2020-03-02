@@ -6,16 +6,14 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
-import XCoordinator
+import Combine
 
 protocol UsersViewModelInput {
-    var showUserTrigger: AnyObserver<User> { get }
+    var showUserTrigger: PassthroughSubject<User, Never> { get }
 }
 
 protocol UsersViewModelOutput {
-    var users: Observable<[User]> { get }
+    var users: AnyPublisher<[User], Never> { get }
 }
 
 protocol UsersViewModel {

@@ -6,8 +6,8 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
+import Combine
+import CombineCocoa
 import UIKit
 
 class HomeViewController: UIViewController, BindableType {
@@ -21,7 +21,7 @@ class HomeViewController: UIViewController, BindableType {
     
     // MARK: Stored properties
 
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Overrides
 
@@ -34,19 +34,18 @@ class HomeViewController: UIViewController, BindableType {
     // MARK: BindableType
 
     func bindViewModel() {
-        logoutButton.rx.tap
-            .bind(to: viewModel.input.logoutTrigger)
-            .disposed(by: disposeBag)
-
-        usersButton.rx.tap
-            .bind(to: viewModel.input.usersTrigger)
-            .disposed(by: disposeBag)
-
-        aboutButton.rx.tap
-            .bind(to: viewModel.input.aboutTrigger)
-            .disposed(by: disposeBag)
+        logoutButton.tapPublisher
+            .sink(receiveValue: viewModel.input.logoutTrigger.send)
+            .store(in: &cancellables)
         
+        usersButton.tapPublisher
+            .sink(receiveValue: viewModel.input.usersTrigger.send)
+            .store(in: &cancellables)
+        
+        aboutButton.tapPublisher
+            .sink(receiveValue: viewModel.input.aboutTrigger.send)
+            .store(in: &cancellables)
+
         viewModel.registerPeek(for: usersButton)
     }
-
 }

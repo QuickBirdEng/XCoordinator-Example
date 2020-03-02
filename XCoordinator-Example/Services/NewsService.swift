@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import RxSwift
 
 // swiftlint:disable line_length
 

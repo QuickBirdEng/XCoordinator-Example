@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 import WebKit
+import Combine
 
 class AboutViewController: UIViewController, BindableType {
 
@@ -26,10 +25,6 @@ class AboutViewController: UIViewController, BindableType {
     private lazy var openWebsiteButton =
         UIBarButtonItem(title: "Website", style: .done,
                         target: self, action: #selector(openWebsite))
-
-    // MARK: Stored properties
-
-    private let disposeBag = DisposeBag()
 
     // MARK: Overrides
 
@@ -52,7 +47,7 @@ class AboutViewController: UIViewController, BindableType {
 
     @objc
     private func openWebsite() {
-        viewModel.input.openWebsiteTrigger.onNext(())
+        viewModel.input.openWebsiteTrigger.send()
     }
 
     // MARK: Helpers
@@ -71,5 +66,4 @@ class AboutViewController: UIViewController, BindableType {
                 .constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
-
 }

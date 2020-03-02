@@ -6,15 +6,14 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
 import XCoordinator
+import Combine
 
 protocol LoginViewModelInput {
-    var loginTrigger: AnyObserver<Void> { get }
+    var loginTrigger: PassthroughSubject<Void, Never> { get }
 }
 
-protocol LoginViewModelOutput {}
+protocol LoginViewModelOutput { }
 
 protocol LoginViewModel {
     var input: LoginViewModelInput { get }

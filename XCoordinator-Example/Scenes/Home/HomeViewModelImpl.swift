@@ -6,35 +6,35 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
+import Combine
 import XCoordinator
-import XCoordinatorRx
 
 class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput {
 
     // MARK: Inputs
 
-    private(set) lazy var logoutTrigger = logoutAction.inputs
-    private(set) lazy var usersTrigger = usersAction.inputs
-    private(set) lazy var aboutTrigger = aboutAction.inputs
+    private(set) lazy var logoutTrigger = PassthroughSubject<Void, Never>()
+    private(set) lazy var usersTrigger = PassthroughSubject<Void, Never>()
+    private(set) lazy var aboutTrigger = PassthroughSubject<Void, Never>()
 
     // MARK: Actions
 
-    private lazy var logoutAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.logout)
+    private lazy var logoutAction = { [unowned self] in
+        self.router.trigger(.logout)
     }
 
-    private lazy var usersAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.users)
+    private lazy var usersAction = { [unowned self] in
+        self.router.trigger(.users)
     }
 
-    private lazy var aboutAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.about)
+    private lazy var aboutAction = { [unowned self] in
+        self.router.trigger(.about)
     }
+    
     // MARK: Stored properties
 
     private let router: UnownedRouter<UserListRoute>
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Initialization
 
@@ -46,6 +46,14 @@ class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput 
 
     func registerPeek(for sourceView: Container) {
         router.trigger(.registerUsersPeek(from: sourceView))
+        logoutTrigger
+            .sink(receiveValue: logoutAction)
+            .store(in: &cancellables)
+        usersTrigger
+            .sink(receiveValue: usersAction)
+            .store(in: &cancellables)
+        aboutTrigger
+            .sink(receiveValue: aboutAction)
+            .store(in: &cancellables)
     }
-
 }

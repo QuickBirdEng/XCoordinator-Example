@@ -6,20 +6,18 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
+import Combine
 import Foundation
-import RxSwift
 
 class NewsDetailViewModelImpl: NewsDetailViewModel, NewsDetailViewModelInput, NewsDetailViewModelOutput {
 
     // MARK: Outputs
 
-    let news: Observable<News>
+    let news: AnyPublisher<News, Never>
 
     // MARK: Initialization
 
     init(news: News) {
-        self.news = .just(news)
+        self.news = Just(news).eraseToAnyPublisher()
     }
-
 }

@@ -6,14 +6,13 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
+import Combine
 import XCoordinator
 
 protocol HomeViewModelInput {
-    var logoutTrigger: AnyObserver<Void> { get }
-    var usersTrigger: AnyObserver<Void> { get }
-    var aboutTrigger: AnyObserver<Void> { get }
+    var logoutTrigger: PassthroughSubject<Void, Never> { get }
+    var usersTrigger: PassthroughSubject<Void, Never> { get }
+    var aboutTrigger: PassthroughSubject<Void, Never> { get }
 }
 
 protocol HomeViewModelOutput {}

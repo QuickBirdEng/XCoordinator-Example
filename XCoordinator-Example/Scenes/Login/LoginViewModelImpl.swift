@@ -6,29 +6,32 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
+import Combine
 import XCoordinator
 
 class LoginViewModelImpl: LoginViewModel, LoginViewModelInput, LoginViewModelOutput {
 
     // MARK: Inputs
 
-    private(set) lazy var loginTrigger = loginAction.inputs
+    private(set) var loginTrigger = PassthroughSubject<Void, Never>()
 
     // MARK: Actions
 
-    private lazy var loginAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.home(nil))
+    private lazy var loginAction = { [unowned self] in
+        self.router.trigger(.home(nil))
     }
 
     // MARK: Stored properties
 
     private let router: UnownedRouter<AppRoute>
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Initialization
 
     init(router: UnownedRouter<AppRoute>) {
         self.router = router
+        loginTrigger
+            .sink(receiveValue: loginAction)
+            .store(in: &cancellables)
     }
 }

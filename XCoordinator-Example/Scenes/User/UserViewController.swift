@@ -6,8 +6,8 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
+import Combine
+import CombineCocoa
 import UIKit
 
 class UserViewController: UIViewController, BindableType {
@@ -21,7 +21,7 @@ class UserViewController: UIViewController, BindableType {
 
     // MARK: Stored properties
 
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Initialization
 
@@ -35,16 +35,17 @@ class UserViewController: UIViewController, BindableType {
 
     func bindViewModel() {
         viewModel.output.username
-            .bind(to: username.rx.text)
-            .disposed(by: disposeBag)
+            .receive(on: RunLoop.main)
+            .assign(to: \.text, on: username)
+            .store(in: &cancellables)
 
-        showAlertButton.rx.tap
-            .bind(to: viewModel.input.alertTrigger)
-            .disposed(by: disposeBag)
-
-        closeBarButtonItem.rx.tap
-            .bind(to: viewModel.input.closeTrigger)
-            .disposed(by: disposeBag)
+        showAlertButton.tapPublisher
+            .sink(receiveValue: viewModel.input.alertTrigger.send)
+            .store(in: &cancellables)
+        
+        closeBarButtonItem.tapPublisher
+            .sink(receiveValue: viewModel.input.closeTrigger.send)
+            .store(in: &cancellables)
     }
 
     // MARK: Helpers
@@ -53,5 +54,4 @@ class UserViewController: UIViewController, BindableType {
         closeBarButtonItem = UIBarButtonItem(title: "Close", style: .plain, target: self, action: nil)
         navigationItem.leftBarButtonItem = closeBarButtonItem
     }
-
 }

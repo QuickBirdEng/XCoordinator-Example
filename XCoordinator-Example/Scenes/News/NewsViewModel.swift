@@ -6,16 +6,15 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
+import Combine
 
 protocol NewsViewModelInput {
-    var selectedNews: AnyObserver<News> { get }
+    var selectedNews: PassthroughSubject<News, Never> { get }
 }
 
 protocol NewsViewModelOutput {
-    var news: Observable<[News]> { get }
-    var title: Observable<String> { get }
+    var news: AnyPublisher<[News], Never> { get }
+    var title: AnyPublisher<String?, Never> { get }
 }
 
 protocol NewsViewModel {

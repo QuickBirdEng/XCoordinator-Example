@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9B0A753A2316C1810092CA3A /* XCoordinatorRx in Frameworks */ = {isa = PBXBuildFile; productRef = 9B0A75392316C1810092CA3A /* XCoordinatorRx */; };
+		2E7649E8240D9A3800F08477 /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 2E7649E7240D9A3800F08477 /* CombineCocoa */; };
+		2E7649EB240D9CA800F08477 /* XCoordinatorCombine in Frameworks */ = {isa = PBXBuildFile; productRef = 2E7649EA240D9CA800F08477 /* XCoordinatorCombine */; };
+		2E7649ED240D9CA800F08477 /* XCoordinator in Frameworks */ = {isa = PBXBuildFile; productRef = 2E7649EC240D9CA800F08477 /* XCoordinator */; };
 		9B56575B2315FA7E00F4F4F7 /* XCoordinator_ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56575A2315FA7E00F4F4F7 /* XCoordinator_ExampleUITests.swift */; };
 		9B5657A72315FB3500F4F4F7 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657692315FB3500F4F4F7 /* AppCoordinator.swift */; };
 		9B5657A82315FB3500F4F4F7 /* UserListCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56576A2315FB3500F4F4F7 /* UserListCoordinator.swift */; };
@@ -56,8 +58,6 @@
 		9B5657D32315FB3500F4F4F7 /* Presentable+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657A32315FB3500F4F4F7 /* Presentable+Rx.swift */; };
 		9B5657D42315FB3500F4F4F7 /* TransitionAnimation+Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657A42315FB3500F4F4F7 /* TransitionAnimation+Defaults.swift */; };
 		9B5657D62315FB3500F4F4F7 /* CGAffineTransform+InPlace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657A62315FB3500F4F4F7 /* CGAffineTransform+InPlace.swift */; };
-		9B5657D92315FB9700F4F4F7 /* Action in Frameworks */ = {isa = PBXBuildFile; productRef = 9B5657D82315FB9700F4F4F7 /* Action */; };
-		9B5657DC2315FC1000F4F4F7 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 9B5657DB2315FC1000F4F4F7 /* RxCocoa */; };
 		9BD3EBF42330CE46005861BF /* Transitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EBF32330CE46005861BF /* Transitions.swift */; };
 		9BD3EBFD2330D84F005861BF /* XCText+Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EBF62330D84E005861BF /* XCText+Extras.swift */; };
 		9BD3EBFE2330D84F005861BF /* XCTestManifests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EBF72330D84F005861BF /* XCTestManifests.swift */; };
@@ -166,9 +166,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B0A753A2316C1810092CA3A /* XCoordinatorRx in Frameworks */,
-				9B5657DC2315FC1000F4F4F7 /* RxCocoa in Frameworks */,
-				9B5657D92315FB9700F4F4F7 /* Action in Frameworks */,
+				2E7649EB240D9CA800F08477 /* XCoordinatorCombine in Frameworks */,
+				2E7649ED240D9CA800F08477 /* XCoordinator in Frameworks */,
+				2E7649E8240D9A3800F08477 /* CombineCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,9 +448,9 @@
 			);
 			name = "XCoordinator-Example";
 			packageProductDependencies = (
-				9B5657D82315FB9700F4F4F7 /* Action */,
-				9B5657DB2315FC1000F4F4F7 /* RxCocoa */,
-				9B0A75392316C1810092CA3A /* XCoordinatorRx */,
+				2E7649E7240D9A3800F08477 /* CombineCocoa */,
+				2E7649EA240D9CA800F08477 /* XCoordinatorCombine */,
+				2E7649EC240D9CA800F08477 /* XCoordinator */,
 			);
 			productName = "XCoordinator-Example";
 			productReference = 9B5657352315FA7B00F4F4F7 /* XCoordinator-Example.app */;
@@ -525,9 +525,8 @@
 			);
 			mainGroup = 9B56572C2315FA7B00F4F4F7;
 			packageReferences = (
-				9B5657D72315FB9700F4F4F7 /* XCRemoteSwiftPackageReference "Action" */,
-				9B5657DA2315FC1000F4F4F7 /* XCRemoteSwiftPackageReference "RxSwift" */,
-				9B5657DD2315FC5C00F4F4F7 /* XCRemoteSwiftPackageReference "XCoordinator" */,
+				2E7649E6240D9A3800F08477 /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+				2E7649E9240D9CA800F08477 /* XCRemoteSwiftPackageReference "XCoordinator" */,
 			);
 			productRefGroup = 9B5657362315FA7B00F4F4F7 /* Products */;
 			projectDirPath = "";
@@ -948,47 +947,39 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		9B5657D72315FB9700F4F4F7 /* XCRemoteSwiftPackageReference "Action" */ = {
+		2E7649E6240D9A3800F08477 /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RxSwiftCommunity/Action.git";
+			repositoryURL = "git@github.com:CombineCommunity/CombineCocoa.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.0.1;
+				minimumVersion = 0.1.0;
 			};
 		};
-		9B5657DA2315FC1000F4F4F7 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+		2E7649E9240D9CA800F08477 /* XCRemoteSwiftPackageReference "XCoordinator" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			repositoryURL = "git@github.com:quickbirdstudios/XCoordinator.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.1;
-			};
-		};
-		9B5657DD2315FC5C00F4F4F7 /* XCRemoteSwiftPackageReference "XCoordinator" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/quickbirdstudios/XCoordinator.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.2;
+				minimumVersion = 2.0.7;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9B0A75392316C1810092CA3A /* XCoordinatorRx */ = {
+		2E7649E7240D9A3800F08477 /* CombineCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9B5657DD2315FC5C00F4F4F7 /* XCRemoteSwiftPackageReference "XCoordinator" */;
-			productName = XCoordinatorRx;
+			package = 2E7649E6240D9A3800F08477 /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
 		};
-		9B5657D82315FB9700F4F4F7 /* Action */ = {
+		2E7649EA240D9CA800F08477 /* XCoordinatorCombine */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9B5657D72315FB9700F4F4F7 /* XCRemoteSwiftPackageReference "Action" */;
-			productName = Action;
+			package = 2E7649E9240D9CA800F08477 /* XCRemoteSwiftPackageReference "XCoordinator" */;
+			productName = XCoordinatorCombine;
 		};
-		9B5657DB2315FC1000F4F4F7 /* RxCocoa */ = {
+		2E7649EC240D9CA800F08477 /* XCoordinator */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 9B5657DA2315FC1000F4F4F7 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
+			package = 2E7649E9240D9CA800F08477 /* XCRemoteSwiftPackageReference "XCoordinator" */;
+			productName = XCoordinator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
