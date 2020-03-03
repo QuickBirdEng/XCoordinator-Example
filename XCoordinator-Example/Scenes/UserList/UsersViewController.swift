@@ -6,11 +6,16 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
+import Combine
+import CombineCocoa
 import UIKit
 
-class UsersViewController: UIViewController, BindableType {
+class UsersViewController: UIViewController, UITableViewDelegate, BindableType {
+    
+    enum Section {
+        case users
+    }
+    
     var viewModel: UsersViewModel!
 
     // MARK: Views
@@ -19,8 +24,9 @@ class UsersViewController: UIViewController, BindableType {
 
     // MARK: Stored properties
 
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
     private let cellIdentifier = String(describing: DetailTableViewCell.self)
+    private var dataSource: UITableViewDiffableDataSource<Section, User>!
 
     // MARK: Initialization
 
@@ -29,21 +35,37 @@ class UsersViewController: UIViewController, BindableType {
 
         configureTableViewCell()
         configureNavigationBar()
+        
+        dataSource = UITableViewDiffableDataSource<Section, User>(tableView: tableView) { (tableView, indexPath, user) -> UITableViewCell? in
+            let cell = tableView.dequeueReusableCell(type: DetailTableViewCell.self, forIndexPath: indexPath)
+            cell.textLabel?.text = user.name
+            cell.selectionStyle = .none
+            return cell
+        }
+        
+        tableView.delegate = self
     }
 
     // MARK: BindableType
 
     func bindViewModel() {
         viewModel.output.users
-        .bind(to: tableView.rx.items(cellIdentifier: cellIdentifier)) { _, element, cell in
-            cell.textLabel?.text = element.name
-            cell.selectionStyle = .none
+            .sink { (users) in
+                var snapshot = NSDiffableDataSourceSnapshot<Section, User>()
+                
+                snapshot.appendSections([.users])
+                snapshot.appendItems(users, toSection: .users)
+                
+                self.dataSource.apply(snapshot, animatingDifferences: true)
+            }
+            .store(in: &cancellables)
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let user = dataSource.itemIdentifier(for: indexPath) else {
+            fatalError("Could not select item at indexpath \(indexPath)")
         }
-        .disposed(by: disposeBag)
-
-        tableView.rx.modelSelected(User.self)
-            .bind(to: viewModel.input.showUserTrigger)
-            .disposed(by: disposeBag)
+        viewModel.input.showUserTrigger.send(user)
     }
 
     // MARK: Helpers
@@ -55,5 +77,4 @@ class UsersViewController: UIViewController, BindableType {
     private func configureNavigationBar() {
         title = "Users"
     }
-
 }

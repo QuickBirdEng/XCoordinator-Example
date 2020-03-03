@@ -6,8 +6,8 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
+import Combine
+import CombineCocoa
 import UIKit
 
 class LoginViewController: UIViewController, BindableType {
@@ -19,7 +19,7 @@ class LoginViewController: UIViewController, BindableType {
 
     // MARK: Stored properties
     
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Overrides
 
@@ -32,9 +32,9 @@ class LoginViewController: UIViewController, BindableType {
     // MARK: BindableType
 
     func bindViewModel() {
-        loginButton.rx.tap
-            .bind(to: viewModel.input.loginTrigger)
-            .disposed(by: disposeBag)
+        loginButton
+            .tapPublisher
+            .sink(receiveValue: viewModel.input.loginTrigger.send)
+            .store(in: &cancellables)
     }
-
 }

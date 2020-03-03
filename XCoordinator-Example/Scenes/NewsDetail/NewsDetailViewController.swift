@@ -6,8 +6,8 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
+import Combine
+import CombineCocoa
 import UIKit
 
 class NewsDetailViewController: UIViewController, BindableType {
@@ -21,7 +21,7 @@ class NewsDetailViewController: UIViewController, BindableType {
 
     // MARK: Stored properties
 
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Overrides
 
@@ -36,18 +36,20 @@ class NewsDetailViewController: UIViewController, BindableType {
     func bindViewModel() {
         viewModel.output.news
             .map { $0.title + "\n" + $0.subtitle }
-            .bind(to: titleLabel.rx.text)
-            .disposed(by: disposeBag)
-
+            .receive(on: RunLoop.main)
+            .assign(to: \.text, on: titleLabel)
+            .store(in: &cancellables)
+        
         viewModel.output.news
             .map { $0.content }
-            .bind(to: contentTextView.rx.text)
-            .disposed(by: disposeBag)
+            .receive(on: RunLoop.main)
+            .assign(to: \.text, on: contentTextView)
+            .store(in: &cancellables)
 
         viewModel.output.news
             .map { $0.image }
-            .bind(to: imageView.rx.image)
-            .disposed(by: disposeBag)
+            .receive(on: RunLoop.main)
+            .assign(to: \.image, on: imageView)
+            .store(in: &cancellables)
     }
-
 }

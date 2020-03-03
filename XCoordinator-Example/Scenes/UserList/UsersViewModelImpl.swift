@@ -6,36 +6,38 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import Action
-import RxSwift
+import Combine
 import XCoordinator
 
 class UsersViewModelImpl: UsersViewModel, UsersViewModelInput, UsersViewModelOutput {
 
     // MARK: Inputs
 
-    private(set) lazy var showUserTrigger = showUserAction.inputs
+    private(set) lazy var showUserTrigger = PassthroughSubject<User, Never>()
 
     // MARK: Actions
 
-    private lazy var showUserAction = Action<User, Void> { [unowned self] user in
-        self.router.rx.trigger(.user(user.name))
+    private lazy var showUserAction: (User) -> Void = { [unowned self] user in
+        self.router.trigger(.user(user.name))
     }
 
     // MARK: Outputs
 
-    private(set) lazy var users = Observable.just(userService.allUsers())
+    private(set) lazy var users = Just(userService.allUsers()).eraseToAnyPublisher()
 
     // MARK: Stored properties
 
     private let userService: UserService
     private let router: UnownedRouter<UserListRoute>
+    private var cancellables = Set<AnyCancellable>()
 
     // MARK: Initialization
 
     init(userService: UserService, router: UnownedRouter<UserListRoute>) {
         self.userService = userService
         self.router = router
+        showUserTrigger
+            .sink(receiveValue: showUserAction)
+            .store(in: &cancellables)
     }
-
 }

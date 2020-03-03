@@ -6,11 +6,16 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
-import RxCocoa
-import RxSwift
+import Combine
+import CombineCocoa
 import UIKit
 
-class NewsViewController: UIViewController, BindableType {
+class NewsViewController: UIViewController, UITableViewDelegate, BindableType {
+    
+    enum Section {
+        case news
+    }
+    
     var viewModel: NewsViewModel!
 
     // MARK: Views
@@ -19,8 +24,9 @@ class NewsViewController: UIViewController, BindableType {
 
     // MARK: Stored properties
 
-    private let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
     private let tableViewCellIdentifier = String(describing: DetailTableViewCell.self)
+    private var dataSource: UITableViewDiffableDataSource<Section, News>!
 
     // MARK: Overrides
 
@@ -29,27 +35,52 @@ class NewsViewController: UIViewController, BindableType {
 
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
         tableView.rowHeight = 44
+        
+        dataSource = UITableViewDiffableDataSource<Section, News>(tableView: self.tableView) { (tableView, indexPath, model) -> UITableViewCell? in
+            let cell = self.tableView.dequeueReusableCell(type: DetailTableViewCell.self, forIndexPath: indexPath)
+            
+            cell.textLabel?.text = model.title
+            cell.detailTextLabel?.text = model.subtitle
+            cell.imageView?.image = model.image
+            cell.selectionStyle = .none
+            
+            return cell
+        }
+        
+        tableView.dataSource = dataSource
+        tableView.delegate = self
     }
 
     // MARK: BindableType
 
     func bindViewModel() {
-        viewModel.output.news
-            .bind(to: tableView.rx.items(cellIdentifier: tableViewCellIdentifier)) { _, model, cell in
-                cell.textLabel?.text = model.title
-                cell.detailTextLabel?.text = model.subtitle
-                cell.imageView?.image = model.image
-                cell.selectionStyle = .none
+                
+        viewModel
+            .output
+            .news
+            .sink { [unowned self] (news) in
+                var snapshot = NSDiffableDataSourceSnapshot<Section, News>()
+                snapshot.appendSections([.news])
+                snapshot.appendItems(news, toSection: .news)
+                
+                self.dataSource.apply(snapshot, animatingDifferences: true)
             }
-            .disposed(by: disposeBag)
-
-        tableView.rx.modelSelected(News.self)
-            .bind(to: viewModel.input.selectedNews)
-            .disposed(by: disposeBag)
-
-        viewModel.output.title
-            .bind(to: navigationItem.rx.title)
-            .disposed(by: disposeBag)
+            .store(in: &cancellables)
+        
+        viewModel
+            .output
+            .title
+            .receive(on: RunLoop.main)
+            .assign(to: \.title, on: navigationItem)
+            .store(in: &cancellables)
     }
-
+    
+    // MARK: UITableViewDelegate
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let news = dataSource.itemIdentifier(for: indexPath) else {
+            fatalError("Did select unknown item at indexpath \(indexPath)")
+        }
+        viewModel.input.selectedNews.send(news)
+    }
 }

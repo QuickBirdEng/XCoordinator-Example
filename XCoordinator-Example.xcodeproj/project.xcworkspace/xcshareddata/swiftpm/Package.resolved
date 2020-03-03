@@ -2,12 +2,12 @@
   "object": {
     "pins": [
       {
-        "package": "Action",
-        "repositoryURL": "https://github.com/RxSwiftCommunity/Action.git",
+        "package": "CombineCocoa",
+        "repositoryURL": "git@github.com:CombineCommunity/CombineCocoa.git",
         "state": {
           "branch": null,
-          "revision": "cdade63f7bbe1f5e1eff7779e5858a796dc2c001",
-          "version": "4.0.1"
+          "revision": "c31c85b6f8494247b69997324312dce8bf55b34b",
+          "version": "0.1.0"
         }
       },
       {
@@ -21,11 +21,11 @@
       },
       {
         "package": "XCoordinator",
-        "repositoryURL": "https://github.com/quickbirdstudios/XCoordinator.git",
+        "repositoryURL": "git@github.com:quickbirdstudios/XCoordinator.git",
         "state": {
           "branch": null,
-          "revision": "0c16cc7061f93d278279137277efb13385e960a6",
-          "version": "2.0.5"
+          "revision": "4b6fc6f7359078c322e3b354854ed4ac5c12c5e1",
+          "version": "2.0.7"
         }
       }
     ]

@@ -9,7 +9,7 @@
 import Foundation
 import class UIKit.UIImage
 
-struct News {
+struct News: Hashable {
     var title: String
     var subtitle: String
     var image: UIImage

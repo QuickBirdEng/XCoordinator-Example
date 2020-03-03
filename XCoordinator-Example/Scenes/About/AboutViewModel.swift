@@ -7,11 +7,10 @@
 //
 
 import Foundation
-import RxSwift
-import Action
+import Combine
 
 protocol AboutViewModelInput {
-    var openWebsiteTrigger: AnyObserver<Void> { get }
+    var openWebsiteTrigger: PassthroughSubject<Void, Never> { get }
 }
 
 protocol AboutViewModelOutput {
