@@ -22,23 +22,23 @@ class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput 
     // MARK: Actions
 
     private lazy var logoutAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.logout)
+        self.router.rxTrigger(.logout)
     }
 
     private lazy var usersAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.users)
+        self.router.rxTrigger(.users)
     }
 
     private lazy var aboutAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.about)
+        self.router.rxTrigger(.about)
     }
     // MARK: Stored properties
 
-    private let router: UnownedRouter<UserListRoute>
+    private unowned let router: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<UserListRoute>) {
+    init(router: any Router<UserListRoute>) {
         self.router = router
     }
 

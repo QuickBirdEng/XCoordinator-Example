@@ -20,11 +20,11 @@ class UserViewModelImpl: UserViewModel, UserViewModelInput, UserViewModelOutput 
     // MARK: Actions
 
     private lazy var alertAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.alert(title: "Hey", message: "You are awesome!"))
+        self.router.rxTrigger(.alert(title: "Hey", message: "You are awesome!"))
     }
 
     private lazy var closeAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.users)
+        self.router.rxTrigger(.users)
     }
 
     // MARK: Outputs
@@ -33,11 +33,11 @@ class UserViewModelImpl: UserViewModel, UserViewModelInput, UserViewModelOutput 
 
     // MARK: Stored properties
 
-    private let router: UnownedRouter<UserRoute>
+    private unowned let router: any Router<UserRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<UserRoute>, username: String) {
+    init(router: any Router<UserRoute>, username: String) {
         self.router = router
         self.username = .just(username)
     }

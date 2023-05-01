@@ -19,16 +19,16 @@ class LoginViewModelImpl: LoginViewModel, LoginViewModelInput, LoginViewModelOut
     // MARK: Actions
 
     private lazy var loginAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.home(nil))
+        self.router.rxTrigger(.home(nil))
     }
 
     // MARK: Stored properties
 
-    private let router: UnownedRouter<AppRoute>
+    private unowned let router: any Router<AppRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<AppRoute>) {
+    init(router: any Router<AppRoute>) {
         self.router = router
     }
 }

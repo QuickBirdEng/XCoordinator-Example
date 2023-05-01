@@ -19,7 +19,7 @@ class UsersViewModelImpl: UsersViewModel, UsersViewModelInput, UsersViewModelOut
     // MARK: Actions
 
     private lazy var showUserAction = Action<User, Void> { [unowned self] user in
-        self.router.rx.trigger(.user(user.name))
+        self.router.rxTrigger(.user(user.name))
     }
 
     // MARK: Outputs
@@ -29,11 +29,11 @@ class UsersViewModelImpl: UsersViewModel, UsersViewModelInput, UsersViewModelOut
     // MARK: Stored properties
 
     private let userService: UserService
-    private let router: UnownedRouter<UserListRoute>
+    private unowned let router: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(userService: UserService, router: UnownedRouter<UserListRoute>) {
+    init(userService: UserService, router: any Router<UserListRoute>) {
         self.userService = userService
         self.router = router
     }

@@ -20,7 +20,7 @@ class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOut
     // MARK: Actions
 
     private lazy var openWebsiteAction = CocoaAction { [unowned self] in
-        self.router.rx.trigger(.website)
+        self.router.rxTrigger(.website)
     }
 
     // MARK: Outputs
@@ -29,11 +29,11 @@ class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOut
 
     // MARK: Stored properties
 
-    private let router: UnownedRouter<AboutRoute>
+    private unowned let router: any Router<AboutRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<AboutRoute>) {
+    init(router: any Router<AboutRoute>) {
         self.router = router
     }
 

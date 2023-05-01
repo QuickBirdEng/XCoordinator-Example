@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import XCoordinator
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Stored properties
 
     private lazy var mainWindow = UIWindow()
-    private let router = AppCoordinator().strongRouter
+    private let router: any Router<AppRoute> = AppCoordinator()
 
     // MARK: UIApplicationDelegate
 

@@ -29,7 +29,7 @@ class AboutCoordinator: NavigationCoordinator<AboutRoute> {
         switch route {
         case .home:
             let viewController = AboutViewController()
-            let viewModel = AboutViewModelImpl(router: unownedRouter)
+            let viewModel = AboutViewModelImpl(router: self)
             viewController.bind(to: viewModel)
             return .push(viewController)
         case .website:

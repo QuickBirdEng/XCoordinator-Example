@@ -18,8 +18,8 @@ class HomeTabCoordinator: TabBarCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Presentable
+    private let userListRouter: any Presentable
 
     // MARK: Initialization
 
@@ -30,12 +30,10 @@ class HomeTabCoordinator: TabBarCoordinator<HomeRoute> {
         let userListCoordinator = UserListCoordinator()
         userListCoordinator.rootViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
 
-        self.init(newsRouter: newsCoordinator.strongRouter,
-                  userListRouter: userListCoordinator.strongRouter)
+        self.init(newsRouter: newsCoordinator, userListRouter: userListCoordinator)
     }
 
-    init(newsRouter: StrongRouter<NewsRoute>,
-         userListRouter: StrongRouter<UserListRoute>) {
+    init(newsRouter: any Presentable, userListRouter: any Presentable) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
 

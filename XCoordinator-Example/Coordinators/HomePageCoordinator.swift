@@ -12,13 +12,13 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Presentable
+    private let userListRouter: any Presentable
 
     // MARK: Initialization
 
-    init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
-         userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
+    init(newsRouter: any Presentable = NewsCoordinator(),
+         userListRouter: any Presentable = UserListCoordinator()) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
         
