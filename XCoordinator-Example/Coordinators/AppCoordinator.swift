@@ -11,7 +11,7 @@ import XCoordinator
 
 enum AppRoute: Route {
     case login
-    case home((any Presentable)?)
+    case home((any Router<HomeRoute>)?)
     case newsDetail(News)
 }
 
@@ -34,7 +34,7 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             return .push(viewController)
         case let .home(router):
             if let router {
-                return .presentFullScreen(router, animation: .fade)
+                return .presentFullScreen(router.asPresentable, animation: .fade)
             }
             let alert = UIAlertController(
                 title: "How would you like to login?",
@@ -57,12 +57,16 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             )
             alert.addAction(
                 .init(title: "Random", style: .default) { [unowned self] _ in
-                    let routers: [() -> any Presentable] = [
-                        { HomeTabCoordinator() },
-                        { HomeSplitCoordinator() },
-                        { HomeTabCoordinator() }
-                    ]
-                    let router = routers.randomElement().map { $0() }
+                    let router: any Router<HomeRoute> = {
+                        switch Int.random(in: 0..<3) {
+                        case 0:
+                            return HomeTabCoordinator()
+                        case 1:
+                            return HomeSplitCoordinator()
+                        default:
+                            return HomeTabCoordinator()
+                        }
+                    }()
                     self.trigger(.home(router))
                 }
             )
