@@ -12,17 +12,17 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: any Presentable
-    private let userListRouter: any Presentable
+    private let newsRouter: any Router<NewsRoute>
+    private let userListRouter: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(newsRouter: any Presentable = NewsCoordinator(),
-         userListRouter: any Presentable = UserListCoordinator()) {
+    init(newsRouter: any Router<NewsRoute> = NewsCoordinator(),
+         userListRouter: any Router<UserListRoute> = UserListCoordinator()) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
 
-        super.init(primary: userListRouter, secondary: newsRouter)
+        super.init(primary: userListRouter.asPresentable, secondary: newsRouter.asPresentable)
     }
 
     // MARK: Overrides
@@ -30,10 +30,18 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
     override func prepareTransition(for route: HomeRoute) -> SplitTransition {
         switch route {
         case .news:
-            return .showDetail(newsRouter)
+            return .showDetail(newsRouter.asPresentable)
         case .userList:
-            return .show(userListRouter)
+            return .show(userListRouter.asPresentable)
         }
+    }
+
+}
+
+extension Router {
+
+    var asPresentable: any Presentable {
+        self
     }
 
 }
