@@ -37,11 +37,3 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
     }
 
 }
-
-extension Router {
-
-    var asPresentable: any Presentable {
-        self
-    }
-
-}
