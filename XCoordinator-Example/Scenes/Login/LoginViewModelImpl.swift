@@ -19,7 +19,7 @@ class LoginViewModelImpl: LoginViewModel, LoginViewModelInput, LoginViewModelOut
     // MARK: Actions
 
     private lazy var loginAction = CocoaAction { [unowned self] in
-        self.router.rxTrigger(.home(nil))
+        self.router.rx.trigger(.home(nil))
     }
 
     // MARK: Stored properties

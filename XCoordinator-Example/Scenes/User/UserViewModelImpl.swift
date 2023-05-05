@@ -20,11 +20,11 @@ class UserViewModelImpl: UserViewModel, UserViewModelInput, UserViewModelOutput 
     // MARK: Actions
 
     private lazy var alertAction = CocoaAction { [unowned self] in
-        self.router.rxTrigger(.alert(title: "Hey", message: "You are awesome!"))
+        self.router.rx.trigger(.alert(title: "Hey", message: "You are awesome!"))
     }
 
     private lazy var closeAction = CocoaAction { [unowned self] in
-        self.router.rxTrigger(.users)
+        self.router.rx.trigger(.users)
     }
 
     // MARK: Outputs

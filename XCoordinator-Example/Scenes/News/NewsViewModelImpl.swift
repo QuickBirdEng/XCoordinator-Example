@@ -19,7 +19,7 @@ class NewsViewModelImpl: NewsViewModel, NewsViewModelInput, NewsViewModelOutput 
     // MARK: Actions
 
     lazy var newsSelectedAction = Action<News, Void> { [unowned self] news in
-        self.router.rxTrigger(.newsDetail(news))
+        self.router.rx.trigger(.newsDetail(news))
     }
 
     // MARK: Outputs

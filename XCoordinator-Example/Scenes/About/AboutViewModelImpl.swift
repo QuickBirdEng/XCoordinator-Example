@@ -20,7 +20,7 @@ class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOut
     // MARK: Actions
 
     private lazy var openWebsiteAction = CocoaAction { [unowned self] in
-        self.router.rxTrigger(.website)
+        self.router.rx.trigger(.website)
     }
 
     // MARK: Outputs
