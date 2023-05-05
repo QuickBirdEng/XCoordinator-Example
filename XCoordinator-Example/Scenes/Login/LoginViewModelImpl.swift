@@ -24,11 +24,11 @@ class LoginViewModelImpl: LoginViewModel, LoginViewModelInput, LoginViewModelOut
 
     // MARK: Stored properties
 
-    private let router: UnownedRouter<AppRoute>
+    private unowned let router: any Router<AppRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<AppRoute>) {
+    init(router: any Router<AppRoute>) {
         self.router = router
     }
 }

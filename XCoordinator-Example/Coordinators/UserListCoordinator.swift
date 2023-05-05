@@ -31,12 +31,12 @@ class UserListCoordinator: NavigationCoordinator<UserListRoute> {
         switch route {
         case .home:
             let viewController = HomeViewController.instantiateFromNib()
-            let viewModel = HomeViewModelImpl(router: unownedRouter)
+            let viewModel = HomeViewModelImpl(router: self)
             viewController.bind(to: viewModel)
             return .push(viewController)
         case .users:
             let viewController = UsersViewController.instantiateFromNib()
-            let viewModel = UsersViewModelImpl(userService: MockUserService(), router: unownedRouter)
+            let viewModel = UsersViewModelImpl(userService: MockUserService(), router: self)
             viewController.bind(to: viewModel)
             return .push(viewController, animation: .fade)
         case .user(let username):

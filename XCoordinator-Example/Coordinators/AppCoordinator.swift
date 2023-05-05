@@ -11,7 +11,7 @@ import XCoordinator
 
 enum AppRoute: Route {
     case login
-    case home(StrongRouter<HomeRoute>?)
+    case home((any Router<HomeRoute>)?)
     case newsDetail(News)
 }
 
@@ -29,12 +29,12 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
         switch route {
         case .login:
             let viewController = LoginViewController.instantiateFromNib()
-            let viewModel = LoginViewModelImpl(router: unownedRouter)
+            let viewModel = LoginViewModelImpl(router: self)
             viewController.bind(to: viewModel)
             return .push(viewController)
         case let .home(router):
-            if let router = router {
-                return .presentFullScreen(router, animation: .fade)
+            if let router {
+                return .presentFullScreen(router.asPresentable, animation: .fade)
             }
             let alert = UIAlertController(
                 title: "How would you like to login?",
@@ -42,27 +42,31 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
                 preferredStyle: .alert)
             alert.addAction(
                 .init(title: "\(HomeTabCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomeTabCoordinator().strongRouter))
+                    self.trigger(.home(HomeTabCoordinator()))
                 }
             )
             alert.addAction(
                 .init(title: "\(HomeSplitCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomeSplitCoordinator().strongRouter))
+                    self.trigger(.home(HomeSplitCoordinator()))
                 }
             )
             alert.addAction(
                 .init(title: "\(HomePageCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomePageCoordinator().strongRouter))
+                    self.trigger(.home(HomePageCoordinator()))
                 }
             )
             alert.addAction(
                 .init(title: "Random", style: .default) { [unowned self] _ in
-                    let routers: [() -> StrongRouter<HomeRoute>] = [
-                        { HomeTabCoordinator().strongRouter },
-                        { HomeSplitCoordinator().strongRouter },
-                        { HomeTabCoordinator().strongRouter }
-                    ]
-                    let router = routers.randomElement().map { $0() }
+                    let router: any Router<HomeRoute> = {
+                        switch Int.random(in: 0..<3) {
+                        case 0:
+                            return HomeTabCoordinator()
+                        case 1:
+                            return HomeSplitCoordinator()
+                        default:
+                            return HomeTabCoordinator()
+                        }
+                    }()
                     self.trigger(.home(router))
                 }
             )
@@ -71,7 +75,7 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             return .multiple(
                 .dismissAll(),
                 .popToRoot(),
-                deepLink(AppRoute.home(HomePageCoordinator().strongRouter),
+                deepLink(AppRoute.home(HomePageCoordinator()),
                          HomeRoute.news,
                          NewsRoute.newsDetail(news))
             )

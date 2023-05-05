@@ -34,7 +34,7 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
             return .push(viewController, animation: .fade)
         case let .user(username):
             let viewController = UserViewController.instantiateFromNib()
-            let viewModel = UserViewModelImpl(router: unownedRouter, username: username)
+            let viewModel = UserViewModelImpl(router: self, username: username)
             viewController.bind(to: viewModel)
             return .push(viewController)
         case let .alert(title, message):

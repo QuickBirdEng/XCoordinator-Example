@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Action",
-        "repositoryURL": "https://github.com/RxSwiftCommunity/Action.git",
-        "state": {
-          "branch": null,
-          "revision": "cdade63f7bbe1f5e1eff7779e5858a796dc2c001",
-          "version": "4.0.1"
-        }
-      },
-      {
-        "package": "RxSwift",
-        "repositoryURL": "https://github.com/ReactiveX/RxSwift.git",
-        "state": {
-          "branch": null,
-          "revision": "b3e888b4972d9bc76495dd74d30a8c7fad4b9395",
-          "version": "5.0.1"
-        }
-      },
-      {
-        "package": "XCoordinator",
-        "repositoryURL": "https://github.com/quickbirdstudios/XCoordinator.git",
-        "state": {
-          "branch": null,
-          "revision": "0c16cc7061f93d278279137277efb13385e960a6",
-          "version": "2.0.5"
-        }
+  "pins" : [
+    {
+      "identity" : "action",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/RxSwiftCommunity/Action.git",
+      "state" : {
+        "revision" : "21110e93ef7b08ce9f01806827e4f381b5b09ab1",
+        "version" : "4.3.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "rxswift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ReactiveX/RxSwift.git",
+      "state" : {
+        "revision" : "b4307ba0b6425c0ba4178e138799946c3da594f8",
+        "version" : "6.5.0"
+      }
+    },
+    {
+      "identity" : "xcoordinator",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/quickbirdstudios/XCoordinator.git",
+      "state" : {
+        "branch" : "feature/3.0.0",
+        "revision" : "aef3a89868b4e12e6191f2d72282cb9415dbc6ea"
+      }
+    }
+  ],
+  "version" : 2
 }

@@ -12,13 +12,13 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Router<NewsRoute>
+    private let userListRouter: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
-         userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
+    init(newsRouter: any Router<NewsRoute> = NewsCoordinator(),
+         userListRouter: any Router<UserListRoute> = UserListCoordinator()) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
         
@@ -26,8 +26,8 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
             rootViewController: .init(transitionStyle: .scroll,
                                       navigationOrientation: .horizontal,
                                       options: nil),
-            pages: [userListRouter, newsRouter], loop: false,
-            set: userListRouter, direction: .forward
+            pages: [userListRouter.asPresentable, newsRouter.asPresentable], loop: false,
+            set: userListRouter.asPresentable, direction: .forward
         )
     }
 
@@ -36,9 +36,9 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
     override func prepareTransition(for route: HomeRoute) -> PageTransition {
         switch route {
         case .news:
-            return .set(newsRouter, direction: .forward)
+            return .set(newsRouter.asPresentable, direction: .forward)
         case .userList:
-            return .set(userListRouter, direction: .reverse)
+            return .set(userListRouter.asPresentable, direction: .reverse)
         }
     }
 

@@ -32,11 +32,11 @@ class NewsViewModelImpl: NewsViewModel, NewsViewModelInput, NewsViewModelOutput 
     // MARK: Stored properties
 
     private let newsService: NewsService
-    private let router: UnownedRouter<NewsRoute>
+    private unowned let router: any Router<NewsRoute>
 
     // MARK: Initialization
 
-    init(newsService: NewsService, router: UnownedRouter<NewsRoute>) {
+    init(newsService: NewsService, router: any Router<NewsRoute>) {
         self.newsService = newsService
         self.newsObservable = .just(newsService.mostRecentNews())
         self.router = router

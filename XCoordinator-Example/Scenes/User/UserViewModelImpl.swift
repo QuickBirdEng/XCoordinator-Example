@@ -33,11 +33,11 @@ class UserViewModelImpl: UserViewModel, UserViewModelInput, UserViewModelOutput 
 
     // MARK: Stored properties
 
-    private let router: UnownedRouter<UserRoute>
+    private unowned let router: any Router<UserRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<UserRoute>, username: String) {
+    init(router: any Router<UserRoute>, username: String) {
         self.router = router
         self.username = .just(username)
     }
