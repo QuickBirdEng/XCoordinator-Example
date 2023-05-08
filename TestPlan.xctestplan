@@ -1,7 +1,7 @@
 {
   "configurations" : [
     {
-      "id" : "1ED5FC9F-923F-4E5B-B12A-422420D973BC",
+      "id" : "C9DED42E-D38D-4E59-B54B-19CA08D0C0C7",
       "name" : "Configuration 1",
       "options" : {
 
@@ -9,12 +9,7 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : false,
-    "targetForVariableExpansion" : {
-      "containerPath" : "container:XCoordinator-Example.xcodeproj",
-      "identifier" : "9B5657342315FA7B00F4F4F7",
-      "name" : "XCoordinator-Example"
-    }
+    "testTimeoutsEnabled" : true
   },
   "testTargets" : [
     {

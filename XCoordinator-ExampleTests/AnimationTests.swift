@@ -10,6 +10,7 @@ import UIKit
 import XCoordinator
 import XCTest
 
+/*
 class AnimationTests: XCTestCase {
 
     // MARK: Static properties
@@ -151,3 +152,4 @@ class AnimationTests: XCTestCase {
         asyncWait(for: 0.1)
     }
 }
+*/

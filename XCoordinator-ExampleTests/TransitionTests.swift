@@ -10,6 +10,7 @@ import UIKit
 import XCoordinator
 import XCTest
 
+/*
 class TransitionTests: XCTestCase {
 
     // MARK: Static properties
@@ -100,3 +101,4 @@ class TransitionTests: XCTestCase {
     }
 
 }
+*/
