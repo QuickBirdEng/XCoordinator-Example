@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/quickbirdstudios/XCoordinator.git",
       "state" : {
-        "branch" : "feature/3.0.0",
-        "revision" : "aef3a89868b4e12e6191f2d72282cb9415dbc6ea"
+        "branch" : "feature/3.0.0-swiftui",
+        "revision" : "2102f751092439d498e962fc571f8b9ce9ca2600"
       }
     }
   ],

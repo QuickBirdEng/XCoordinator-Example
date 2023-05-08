@@ -29,10 +29,6 @@
 		9B5657B82315FB3500F4F4F7 /* NewsDetailViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657802315FB3500F4F4F7 /* NewsDetailViewModelImpl.swift */; };
 		9B5657B92315FB3500F4F4F7 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B5657812315FB3500F4F4F7 /* NewsDetailViewController.xib */; };
 		9B5657BA2315FB3500F4F4F7 /* NewsDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657822315FB3500F4F4F7 /* NewsDetailViewModel.swift */; };
-		9B5657BB2315FB3500F4F4F7 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657842315FB3500F4F4F7 /* UserViewModel.swift */; };
-		9B5657BC2315FB3500F4F4F7 /* UserViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B5657852315FB3500F4F4F7 /* UserViewController.xib */; };
-		9B5657BD2315FB3500F4F4F7 /* UserViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657862315FB3500F4F4F7 /* UserViewModelImpl.swift */; };
-		9B5657BE2315FB3500F4F4F7 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657872315FB3500F4F4F7 /* UserViewController.swift */; };
 		9B5657BF2315FB3500F4F4F7 /* UsersViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5657892315FB3500F4F4F7 /* UsersViewModelImpl.swift */; };
 		9B5657C02315FB3500F4F4F7 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56578A2315FB3500F4F4F7 /* UsersViewController.swift */; };
 		9B5657C12315FB3500F4F4F7 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B56578B2315FB3500F4F4F7 /* UsersViewModel.swift */; };
@@ -70,6 +66,7 @@
 		9BD3EC0E2330F372005861BF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC0A2330F372005861BF /* AboutViewController.swift */; };
 		9BD3EC0F2330F372005861BF /* AboutViewModelImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC0B2330F372005861BF /* AboutViewModelImpl.swift */; };
 		9BD3EC102330F372005861BF /* AboutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD3EC0C2330F372005861BF /* AboutViewModel.swift */; };
+		9BECC8E42A092A9100FAD1A6 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BECC8E32A092A9100FAD1A6 /* UserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,10 +114,6 @@
 		9B5657802315FB3500F4F4F7 /* NewsDetailViewModelImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModelImpl.swift; sourceTree = "<group>"; };
 		9B5657812315FB3500F4F4F7 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
 		9B5657822315FB3500F4F4F7 /* NewsDetailViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsDetailViewModel.swift; sourceTree = "<group>"; };
-		9B5657842315FB3500F4F4F7 /* UserViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		9B5657852315FB3500F4F4F7 /* UserViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserViewController.xib; sourceTree = "<group>"; };
-		9B5657862315FB3500F4F4F7 /* UserViewModelImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewModelImpl.swift; sourceTree = "<group>"; };
-		9B5657872315FB3500F4F4F7 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		9B5657892315FB3500F4F4F7 /* UsersViewModelImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersViewModelImpl.swift; sourceTree = "<group>"; };
 		9B56578A2315FB3500F4F4F7 /* UsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
 		9B56578B2315FB3500F4F4F7 /* UsersViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
@@ -158,6 +151,7 @@
 		9BD3EC0B2330F372005861BF /* AboutViewModelImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModelImpl.swift; sourceTree = "<group>"; };
 		9BD3EC0C2330F372005861BF /* AboutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewModel.swift; sourceTree = "<group>"; };
 		9BD5395523315E150014DF01 /* XCoordinator-Example.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "XCoordinator-Example.xctestplan"; sourceTree = "<group>"; };
+		9BECC8E32A092A9100FAD1A6 /* UserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,10 +323,7 @@
 		9B5657832315FB3500F4F4F7 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				9B5657842315FB3500F4F4F7 /* UserViewModel.swift */,
-				9B5657852315FB3500F4F4F7 /* UserViewController.xib */,
-				9B5657862315FB3500F4F4F7 /* UserViewModelImpl.swift */,
-				9B5657872315FB3500F4F4F7 /* UserViewController.swift */,
+				9BECC8E32A092A9100FAD1A6 /* UserView.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -542,7 +533,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9B5657C92315FB3500F4F4F7 /* LoginViewController.xib in Resources */,
-				9B5657BC2315FB3500F4F4F7 /* UserViewController.xib in Resources */,
 				9B5657C22315FB3500F4F4F7 /* UsersViewController.xib in Resources */,
 				9B5657B92315FB3500F4F4F7 /* NewsDetailViewController.xib in Resources */,
 				9B5657B12315FB3500F4F4F7 /* Images.xcassets in Resources */,
@@ -579,6 +569,7 @@
 				9B5657B82315FB3500F4F4F7 /* NewsDetailViewModelImpl.swift in Sources */,
 				9BD3EBF42330CE46005861BF /* Transitions.swift in Sources */,
 				9B5657B62315FB3500F4F4F7 /* HomeViewModelImpl.swift in Sources */,
+				9BECC8E42A092A9100FAD1A6 /* UserView.swift in Sources */,
 				9B5657CF2315FB3500F4F4F7 /* Animation+Navigation.swift in Sources */,
 				9B5657C42315FB3500F4F4F7 /* NewsViewModelImpl.swift in Sources */,
 				9B5657AE2315FB3500F4F4F7 /* AboutCoordinator.swift in Sources */,
@@ -608,14 +599,11 @@
 				9BD3EC102330F372005861BF /* AboutViewModel.swift in Sources */,
 				9B5657D12315FB3500F4F4F7 /* Animation+Fade.swift in Sources */,
 				9B5657B22315FB3500F4F4F7 /* AppDelegate.swift in Sources */,
-				9B5657BB2315FB3500F4F4F7 /* UserViewModel.swift in Sources */,
 				9B5657BF2315FB3500F4F4F7 /* UsersViewModelImpl.swift in Sources */,
 				9B5657AA2315FB3500F4F4F7 /* UserCoordinator.swift in Sources */,
 				9B5657B52315FB3500F4F4F7 /* HomeViewController.swift in Sources */,
 				9B5657CC2315FB3500F4F4F7 /* NibIdentifiable.swift in Sources */,
 				9B5657D02315FB3500F4F4F7 /* Animation+Modal.swift in Sources */,
-				9B5657BD2315FB3500F4F4F7 /* UserViewModelImpl.swift in Sources */,
-				9B5657BE2315FB3500F4F4F7 /* UserViewController.swift in Sources */,
 				9BD3EC042330DA3A005861BF /* UserService.swift in Sources */,
 				9B5657CD2315FB3500F4F4F7 /* DetailTableViewCell.swift in Sources */,
 				9BD3EC092330EFDF005861BF /* User.swift in Sources */,
@@ -956,7 +944,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/quickbirdstudios/XCoordinator.git";
 			requirement = {
-				branch = feature/3.0.0;
+				branch = "feature/3.0.0-swiftui";
 				kind = branch;
 			};
 		};

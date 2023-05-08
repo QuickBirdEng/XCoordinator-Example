@@ -33,10 +33,7 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
             viewController.view.backgroundColor = .random()
             return .push(viewController, animation: .fade)
         case let .user(username):
-            let viewController = UserViewController.instantiateFromNib()
-            let viewModel = UserViewModelImpl(router: self, username: username)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            return .push(.hosted(UserView(username: username)))
         case let .alert(title, message):
             let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
