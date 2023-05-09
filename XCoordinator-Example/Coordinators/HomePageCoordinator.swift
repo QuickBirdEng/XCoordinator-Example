@@ -33,12 +33,17 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
 
     // MARK: Overrides
 
-    override func prepareTransition(for route: HomeRoute) -> PageTransition {
+    @Prepare
+    override func prepare(for route: HomeRoute) -> Transition<RootViewController> {
         switch route {
         case .news:
-            return .set(newsRouter.asPresentable, direction: .forward)
+            PageSet(direction: .forward) {
+                self.newsRouter.asPresentable
+            }
         case .userList:
-            return .set(userListRouter.asPresentable, direction: .reverse)
+            PageSet(direction: .reverse) {
+                self.userListRouter.asPresentable
+            }
         }
     }
 

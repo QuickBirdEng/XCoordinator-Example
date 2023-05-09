@@ -26,23 +26,30 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
 
     // MARK: Overrides
 
-    override func prepareTransition(for route: UserRoute) -> NavigationTransition {
+    @Prepare
+    override func prepare(for route: UserRoute) -> Transition<RootViewController> {
         switch route {
         case .randomColor:
-            let viewController = UIViewController()
-            viewController.view.backgroundColor = .random()
-            return .push(viewController, animation: .fade)
+            Push(animation: .fade) {
+                let viewController = UIViewController()
+                viewController.view.backgroundColor = .random()
+                return viewController
+            }
         case let .user(username):
-            let viewController = UserViewController.instantiateFromNib()
-            let viewModel = UserViewModelImpl(router: self, username: username)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Push {
+                let viewController = UserViewController.instantiateFromNib()
+                let viewModel = UserViewModelImpl(router: self, username: username)
+                viewController.bind(to: viewModel)
+                return viewController
+            }
         case let .alert(title, message):
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            return .present(alert)
+            Present {
+                let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                return alert
+            }
         case .users:
-            return .dismiss()
+            Dismiss()
         }
     }
 

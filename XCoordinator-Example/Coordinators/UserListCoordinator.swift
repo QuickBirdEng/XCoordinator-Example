@@ -27,32 +27,35 @@ class UserListCoordinator: NavigationCoordinator<UserListRoute> {
 
     // MARK: Overrides
 
-    override func prepareTransition(for route: UserListRoute) -> NavigationTransition {
+    @Prepare
+    override func prepare(for route: UserListRoute) -> Transition<RootViewController> {
         switch route {
         case .home:
-            let viewController = HomeViewController.instantiateFromNib()
-            let viewModel = HomeViewModelImpl(router: self)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Push {
+                let viewController = HomeViewController.instantiateFromNib()
+                let viewModel = HomeViewModelImpl(router: self)
+                viewController.bind(to: viewModel)
+                return viewController
+            }
         case .users:
-            let viewController = UsersViewController.instantiateFromNib()
-            let viewModel = UsersViewModelImpl(userService: MockUserService(), router: self)
-            viewController.bind(to: viewModel)
-            return .push(viewController, animation: .fade)
+            Push(animation: .fade) {
+                let viewController = UsersViewController.instantiateFromNib()
+                let viewModel = UsersViewModelImpl(userService: MockUserService(), router: self)
+                viewController.bind(to: viewModel)
+                return viewController
+            }
         case .user(let username):
-            let coordinator = UserCoordinator(user: username)
-            return .present(coordinator, animation: .default)
+            Present(animation: .default) {
+                UserCoordinator(user: username)
+            }
         case .registerUsersPeek(let source):
-            if #available(iOS 13.0, *) {
-                return .none()
-            } else {
-                return registerPeek(for: source, route: .users)
+            if #unavailable(iOS 13) {
+                RegisterPeek(for: .users, on: self, in: source)
             }
         case .logout:
-            return .dismiss()
+            Dismiss()
         case .about:
             addChild(AboutCoordinator(rootViewController: rootViewController))
-            return .none()
         }
     }
 

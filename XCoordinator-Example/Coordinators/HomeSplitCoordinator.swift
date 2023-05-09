@@ -27,6 +27,20 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
 
     // MARK: Overrides
 
+    @Prepare
+    override func prepare(for route: HomeRoute) -> Transition<RootViewController> {
+        switch route {
+        case .news:
+            ShowDetail {
+                self.newsRouter.asPresentable
+            }
+        case .userList:
+            Show {
+                self.userListRouter.asPresentable
+            }
+        }
+    }
+
     override func prepareTransition(for route: HomeRoute) -> SplitTransition {
         switch route {
         case .news:

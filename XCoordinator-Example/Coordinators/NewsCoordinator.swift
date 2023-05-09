@@ -24,27 +24,33 @@ class NewsCoordinator: NavigationCoordinator<NewsRoute> {
 
     // MARK: Overrides
 
-    override func prepareTransition(for route: NewsRoute) -> NavigationTransition {
+    @Prepare
+    override func prepare(for route: NewsRoute) -> Transition<RootViewController> {
         switch route {
         case .news:
-            let viewController = NewsViewController.instantiateFromNib()
-            let service = MockNewsService()
-            let viewModel = NewsViewModelImpl(newsService: service, router: self)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
-        case .newsDetail(let news):
-            let viewController = NewsDetailViewController.instantiateFromNib()
-            let viewModel = NewsDetailViewModelImpl(news: news)
-            viewController.bind(to: viewModel)
-            let animation: Animation
-            if #available(iOS 10.0, *) {
-                animation = .swirl
-            } else {
-                animation = .scale
+            Push {
+                let viewController = NewsViewController.instantiateFromNib()
+                let service = MockNewsService()
+                let viewModel = NewsViewModelImpl(newsService: service, router: self)
+                viewController.bind(to: viewModel)
+                return viewController
             }
-            return .push(viewController, animation: animation)
+        case .newsDetail(let news):
+            let animation: Animation = {
+                if #available(iOS 10.0, *) {
+                    return .swirl
+                } else {
+                    return .scale
+                }
+            }()
+            Push(animation: animation) {
+                let viewController = NewsDetailViewController.instantiateFromNib()
+                let viewModel = NewsDetailViewModelImpl(news: news)
+                viewController.bind(to: viewModel)
+                return viewController
+            }
         case .close:
-            return .dismissToRoot()
+            Dismiss(toRoot: true)
         }
     }
 

@@ -15,6 +15,10 @@ enum AppRoute: Route {
     case newsDetail(News)
 }
 
+extension Coordinator {
+    typealias Prepare = TransitionBuilder<RootViewController>
+}
+
 class AppCoordinator: NavigationCoordinator<AppRoute> {
 
     // MARK: Initialization
@@ -25,60 +29,69 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
 
     // MARK: Overrides
 
-    override func prepareTransition(for route: AppRoute) -> NavigationTransition {
+    @Prepare
+    override func prepare(for route: AppRoute) -> Transition<RootViewController> {
         switch route {
         case .login:
-            let viewController = LoginViewController.instantiateFromNib()
-            let viewModel = LoginViewModelImpl(router: self)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Push {
+                let viewController = LoginViewController.instantiateFromNib()
+                let viewModel = LoginViewModelImpl(router: self)
+                viewController.bind(to: viewModel)
+                return viewController
+            }
         case let .home(router):
             if let router {
-                return .presentFullScreen(router.asPresentable, animation: .fade)
-            }
-            let alert = UIAlertController(
-                title: "How would you like to login?",
-                message: "Please choose the type of coordinator used for the `Home` scene.",
-                preferredStyle: .alert)
-            alert.addAction(
-                .init(title: "\(HomeTabCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomeTabCoordinator()))
+                Present(animation: .fade) {
+                    router.viewController.modalPresentationStyle = .fullScreen
+                    return router.asPresentable
                 }
-            )
-            alert.addAction(
-                .init(title: "\(HomeSplitCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomeSplitCoordinator()))
-                }
-            )
-            alert.addAction(
-                .init(title: "\(HomePageCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomePageCoordinator()))
-                }
-            )
-            alert.addAction(
-                .init(title: "Random", style: .default) { [unowned self] _ in
-                    let router: any Router<HomeRoute> = {
-                        switch Int.random(in: 0..<3) {
-                        case 0:
-                            return HomeTabCoordinator()
-                        case 1:
-                            return HomeSplitCoordinator()
-                        default:
-                            return HomeTabCoordinator()
+            } else {
+                Present {
+                    let alert = UIAlertController(
+                        title: "How would you like to login?",
+                        message: "Please choose the type of coordinator used for the `Home` scene.",
+                        preferredStyle: .alert)
+                    alert.addAction(
+                        .init(title: "\(HomeTabCoordinator.self)", style: .default) { [unowned self] _ in
+                            self.trigger(.home(HomeTabCoordinator()))
                         }
-                    }()
-                    self.trigger(.home(router))
+                    )
+                    alert.addAction(
+                        .init(title: "\(HomeSplitCoordinator.self)", style: .default) { [unowned self] _ in
+                            self.trigger(.home(HomeSplitCoordinator()))
+                        }
+                    )
+                    alert.addAction(
+                        .init(title: "\(HomePageCoordinator.self)", style: .default) { [unowned self] _ in
+                            self.trigger(.home(HomePageCoordinator()))
+                        }
+                    )
+                    alert.addAction(
+                        .init(title: "Random", style: .default) { [unowned self] _ in
+                            let router: any Router<HomeRoute> = {
+                                switch Int.random(in: 0..<3) {
+                                case 0:
+                                    return HomeTabCoordinator()
+                                case 1:
+                                    return HomeSplitCoordinator()
+                                default:
+                                    return HomeTabCoordinator()
+                                }
+                            }()
+                            self.trigger(.home(router))
+                        }
+                    )
+                    return alert
                 }
-            )
-            return .present(alert)
+            }
         case .newsDetail(let news):
-            return .multiple(
-                .dismissAll(),
-                .popToRoot(),
-                deepLink(AppRoute.home(HomePageCoordinator()),
-                         HomeRoute.news,
-                         NewsRoute.newsDetail(news))
-            )
+            Dismiss(toRoot: true)
+            Pop(toRoot: true)
+            /*
+            deepLink(AppRoute.home(HomePageCoordinator()),
+                     HomeRoute.news,
+                     NewsRoute.newsDetail(news))
+             */
         }
     }
 

@@ -956,7 +956,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/quickbirdstudios/XCoordinator.git";
 			requirement = {
-				branch = feature/3.0.0;
+				branch = "feature/3.0.0-transitions";
 				kind = branch;
 			};
 		};

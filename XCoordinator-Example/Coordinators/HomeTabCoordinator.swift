@@ -42,12 +42,16 @@ class HomeTabCoordinator: TabBarCoordinator<HomeRoute> {
 
     // MARK: Overrides
 
-    override func prepareTransition(for route: HomeRoute) -> TabBarTransition {
+    @Prepare override func prepare(for route: HomeRoute) -> Transition<RootViewController> {
         switch route {
         case .news:
-            return .select(newsRouter.asPresentable)
+            SelectTab {
+                self.newsRouter.asPresentable
+            }
         case .userList:
-            return .select(userListRouter.asPresentable)
+            SelectTab {
+                self.userListRouter.asPresentable
+            }
         }
     }
 

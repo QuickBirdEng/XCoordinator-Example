@@ -24,19 +24,21 @@ class AboutCoordinator: NavigationCoordinator<AboutRoute> {
     }
 
     // MARK: Overrides
-    
-    override func prepareTransition(for route: AboutRoute) -> NavigationTransition {
+
+    @Prepare
+    override func prepare(for route: AboutRoute) -> Transition<RootViewController> {
         switch route {
         case .home:
-            let viewController = AboutViewController()
-            let viewModel = AboutViewModelImpl(router: self)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Push {
+                let viewController = AboutViewController()
+                let viewModel = AboutViewModelImpl(router: self)
+                viewController.bind(to: viewModel)
+                return viewController
+            }
         case .website:
-            let url = URL(string: "https://quickbirdstudios.com/")!
-            return Transition(presentables: [], animationInUse: nil) { _, _, completion in
+            Run {
+                let url = URL(string: "https://quickbirdstudios.com/")!
                 UIApplication.shared.open(url)
-                completion?()
             }
         }
     }
