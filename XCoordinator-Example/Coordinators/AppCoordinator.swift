@@ -85,13 +85,14 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
                 }
             }
         case .newsDetail(let news):
-            Dismiss(toRoot: true)
+            DismissAll()
             Pop(toRoot: true)
-            /*
-            deepLink(AppRoute.home(HomePageCoordinator()),
-                     HomeRoute.news,
-                     NewsRoute.newsDetail(news))
-             */
+            DeepLink(
+                with: self,
+                AppRoute.home(HomePageCoordinator()),
+                HomeRoute.news,
+                NewsRoute.newsDetail(news)
+            )
         }
     }
 
