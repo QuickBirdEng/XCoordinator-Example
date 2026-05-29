@@ -23,7 +23,7 @@ class UserViewController: UIViewController, BindableType {
 
     private let disposeBag = DisposeBag()
 
-    // MARK: Initialization
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()

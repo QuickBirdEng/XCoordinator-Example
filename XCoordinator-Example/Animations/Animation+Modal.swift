@@ -10,6 +10,7 @@ import UIKit
 import XCoordinator
 
 extension Animation {
+    /// Bottom-sheet style: incoming view slides up from below, dismissal slides back down.
     static let modal = Animation(presentation: InteractiveTransitionAnimation.modalPresentation,
                                  dismissal: InteractiveTransitionAnimation.modalDismissal)
 }

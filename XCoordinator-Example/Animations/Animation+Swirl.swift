@@ -11,12 +11,12 @@ import XCoordinator
 
 extension Animation {
 
-    @available(iOS 10.0, *)
+    /// Spin-and-grow transition built on `UIViewPropertyAnimator` (hence interruptible). Used for the
+    /// news-list → news-detail push.
     static let swirl = Animation(presentation: InterruptibleTransitionAnimation.swirlPresentation,
                                  dismissal: InterruptibleTransitionAnimation.swirlDismissal)
 }
 
-@available(iOS 10.0, *)
 extension InterruptibleTransitionAnimation {
     fileprivate static let swirlPresentation = InterruptibleTransitionAnimation(duration: defaultAnimationDuration) { transitionContext in
         let containerView = transitionContext.containerView

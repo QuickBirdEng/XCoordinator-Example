@@ -9,11 +9,16 @@
 import Foundation
 import UIKit
 
+/// The MVVM-C binding contract used by every scene in this app. A coordinator instantiates the view
+/// controller (typically via `instantiateFromNib()`), then calls `bind(to:)` on it — that assigns the
+/// view-model, forces the view hierarchy to load, and invokes `bindViewModel()` so the controller can
+/// wire its `IBOutlet`s to the model's `input`/`output` streams via RxSwift.
 protocol BindableType: AnyObject {
     associatedtype ViewModelType
 
     var viewModel: ViewModelType! { get set }
 
+    /// Override to wire the view controller's controls to `viewModel.input` and its outputs to UI elements.
     func bindViewModel()
 }
 

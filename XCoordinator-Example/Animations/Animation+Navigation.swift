@@ -12,6 +12,8 @@ import XCoordinator
 // swiftlint:disable force_unwrapping
 
 extension Animation {
+    /// Custom navigation push/pop: slides horizontally with a parallax-style 30%-width offset on the
+    /// outgoing view, mimicking the default `UINavigationController` push.
     static let navigation = Animation(presentation: InteractiveTransitionAnimation.push,
                                       dismissal: InteractiveTransitionAnimation.pop)
 }

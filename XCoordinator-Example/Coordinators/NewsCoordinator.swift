@@ -8,12 +8,18 @@
 
 import XCoordinator
 
+/// Routes for the news flow: the news list, a specific article, and a "close everything" command
+/// that returns to the flow's root.
 enum NewsRoute: Route {
+    /// Push the news list. Used as the initial route.
     case news
+    /// Push a detail screen for a specific article.
     case newsDetail(News)
+    /// Dismiss everything pushed by this coordinator back to its root.
     case close
 }
 
+/// News flow inside a `UINavigationController`. Owns the news list and the article-detail push.
 class NewsCoordinator: NavigationCoordinator<NewsRoute> {
 
     // MARK: Initialization
@@ -36,13 +42,7 @@ class NewsCoordinator: NavigationCoordinator<NewsRoute> {
             let viewController = NewsDetailViewController.instantiateFromNib()
             let viewModel = NewsDetailViewModelImpl(news: news)
             viewController.bind(to: viewModel)
-            let animation: Animation
-            if #available(iOS 10.0, *) {
-                animation = .swirl
-            } else {
-                animation = .scale
-            }
-            return .push(viewController, animation: animation)
+            return .push(viewController, animation: .swirl)
         case .close:
             return .dismissToRoot()
         }

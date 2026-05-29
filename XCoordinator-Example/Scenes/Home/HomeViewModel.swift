@@ -10,6 +10,18 @@ import Action
 import RxSwift
 import XCoordinator
 
+// MARK: - The Input/Output/composite ViewModel pattern (used by every scene in this app)
+//
+// Each scene defines three protocols:
+//   * `<Scene>ViewModelInput`  — RxSwift `AnyObserver` triggers the view controller pushes events into.
+//   * `<Scene>ViewModelOutput` — observables the view controller binds to UI.
+//   * `<Scene>ViewModel`       — exposes `input` and `output` so view controllers don't see the impl.
+//
+// A single concrete `<Scene>ViewModelImpl` adopts all three. The `where Self: Input & Output` extension
+// below lets that impl satisfy the composite protocol by returning `self` from `input` and `output`,
+// so there's no boilerplate forwarding. This pattern is repeated identically across every scene; the
+// comment lives here so it's documented once.
+
 protocol HomeViewModelInput {
     var logoutTrigger: AnyObserver<Void> { get }
     var usersTrigger: AnyObserver<Void> { get }
@@ -21,8 +33,6 @@ protocol HomeViewModelOutput {}
 protocol HomeViewModel {
     var input: HomeViewModelInput { get }
     var output: HomeViewModelOutput { get }
-
-    func registerPeek(for sourceView: Container)
 }
 
 extension HomeViewModel where Self: HomeViewModelInput & HomeViewModelOutput {

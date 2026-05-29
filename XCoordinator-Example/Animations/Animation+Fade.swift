@@ -10,6 +10,7 @@ import UIKit
 import XCoordinator
 
 extension Animation {
+    /// Cross-fade between view controllers. Used for the login → home presentation.
     static let fade = Animation(
         presentation: InteractiveTransitionAnimation.fade,
         dismissal: InteractiveTransitionAnimation.fade

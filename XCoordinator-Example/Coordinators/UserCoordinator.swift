@@ -9,13 +9,20 @@
 import UIKit
 import XCoordinator
 
+/// Routes for the user-detail modal flow.
 enum UserRoute: Route {
+    /// Push the user-detail screen for the named user. Used as the initial route.
     case user(String)
+    /// Present a `UIAlertController` with the given title and message.
     case alert(title: String, message: String)
+    /// Dismiss the modal user flow back to the user list.
     case users
+    /// Push a screen with a random background colour — the target of the interactive edge-pan gesture.
     case randomColor
 }
 
+/// Modal user-detail flow. Demonstrates an interactive (gesture-driven) transition: the edge-pan
+/// recognizer registered in `presented(from:)` interactively pushes `.randomColor`.
 class UserCoordinator: NavigationCoordinator<UserRoute> {
 
     // MARK: Initialization
@@ -59,6 +66,9 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
         gestureRecognizer.edges = .right
         view?.addGestureRecognizer(gestureRecognizer)
 
+        // Interactive-transition wiring: pan progress drives the `.randomColor` push frame-by-frame via
+        // XCoordinator's `registerInteractiveTransition`. `progress` reports the gesture's position as a
+        // fraction in [0, 1]; `shouldFinish` decides on touch-up whether to complete or cancel.
         registerInteractiveTransition(
             for: .randomColor,
             triggeredBy: gestureRecognizer,

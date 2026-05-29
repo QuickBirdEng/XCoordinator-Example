@@ -8,36 +8,162 @@
 
 import XCTest
 
-class XCoordinator_ExampleUITests: XCTestCase {
+// String literals below must match those in XCoordinator-Example/Common/UITestIdentifiers.swift.
+// The UI-test target is a separate process and can't import the app target, so the constants are
+// duplicated; keep them in sync by hand.
+private enum ID {
+    static let loginButton = "login.button"
+    static let homeContainerTab = "home-container.tab"
+    static let homeContainerSplit = "home-container.split"
+    static let homeContainerPage = "home-container.page"
+    static let usersButton = "home.users-button"
+    static let randomPickerIndexArg = "--random-picker-index"
+}
+
+private enum PickerLabel {
+    static let tab = "HomeTabCoordinator"
+    static let split = "HomeSplitCoordinator"
+    static let page = "HomePageCoordinator"
+    static let random = "Random"
+}
+
+final class XCoordinator_ExampleUITests: XCTestCase {
 
     override func setUp() {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+        super.setUp()
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
     }
 
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
+    // MARK: - Helpers
 
-    func testExample() {
-        // UI tests must launch the application that they test.
+    private func launch(arguments: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
+        app.launchArguments += arguments
         app.launch()
-
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        return app
     }
 
-    func testLaunchPerformance() {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-                XCUIApplication().launch()
-            }
-        }
+    @discardableResult
+    private func tapLoginAndWaitForPicker(_ app: XCUIApplication) -> XCUIElement {
+        let loginButton = app.buttons[ID.loginButton]
+        XCTAssertTrue(loginButton.waitForExistence(timeout: 5), "Login button never appeared")
+        loginButton.tap()
+        let alert = app.alerts.firstMatch
+        XCTAssertTrue(alert.waitForExistence(timeout: 5), "Picker alert never appeared")
+        return alert
+    }
+
+    private func assertContainerVisible(_ identifier: String, in app: XCUIApplication,
+                                        file: StaticString = #file, line: UInt = #line) {
+        let container = app.descendants(matching: .any).matching(identifier: identifier).firstMatch
+        XCTAssertTrue(container.waitForExistence(timeout: 5),
+                      "Expected container '\(identifier)' to appear", file: file, line: line)
+    }
+
+    // MARK: - Scene delegate / launch
+
+    func testAppLaunchesUnderSceneDelegate() {
+        let app = launch()
+        XCTAssertTrue(app.buttons[ID.loginButton].waitForExistence(timeout: 5),
+                      "App did not launch — SceneDelegate may not be wired up correctly.")
+    }
+
+    // MARK: - Picker structure
+
+    func testLoginFlowReachesPicker() {
+        let app = launch()
+        let alert = tapLoginAndWaitForPicker(app)
+        XCTAssertTrue(alert.buttons[PickerLabel.tab].exists)
+        XCTAssertTrue(alert.buttons[PickerLabel.split].exists)
+        XCTAssertTrue(alert.buttons[PickerLabel.page].exists)
+        XCTAssertTrue(alert.buttons[PickerLabel.random].exists)
+    }
+
+    // MARK: - Explicit picker choices land on the right container
+
+    func testTabPickerLandsOnTabBar() {
+        let app = launch()
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.tab].tap()
+        assertContainerVisible(ID.homeContainerTab, in: app)
+    }
+
+    func testSplitPickerLandsOnSplit() {
+        let app = launch()
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.split].tap()
+        assertContainerVisible(ID.homeContainerSplit, in: app)
+    }
+
+    func testPagePickerLandsOnPage() {
+        let app = launch()
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.page].tap()
+        assertContainerVisible(ID.homeContainerPage, in: app)
+    }
+
+    // MARK: - Random picker exercises all three containers (regression for the duplicate-entry bug)
+
+    func testRandomPickerIndex0LandsOnTab() {
+        let app = launch(arguments: [ID.randomPickerIndexArg, "0"])
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.random].tap()
+        assertContainerVisible(ID.homeContainerTab, in: app)
+    }
+
+    func testRandomPickerIndex1LandsOnSplit() {
+        let app = launch(arguments: [ID.randomPickerIndexArg, "1"])
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.random].tap()
+        assertContainerVisible(ID.homeContainerSplit, in: app)
+    }
+
+    func testRandomPickerIndex2LandsOnPage() {
+        let app = launch(arguments: [ID.randomPickerIndexArg, "2"])
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.random].tap()
+        assertContainerVisible(ID.homeContainerPage, in: app)
+    }
+
+    // MARK: - URL deep linking
+
+    private func launchWithDeepLink(_ url: String) -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchEnvironment["XCOORDINATOR_DEEP_LINK"] = url
+        app.launch()
+        return app
+    }
+
+    func testNewsDeepLinkFromColdLaunch() {
+        let app = launchWithDeepLink("xcoordinator-example://news/0")
+        // Title label is "Article 0\nStefan" (title + newline + subtitle), so match by prefix.
+        let predicate = NSPredicate(format: "label BEGINSWITH 'Article 0'")
+        let title = app.staticTexts.matching(predicate).firstMatch
+        XCTAssertTrue(title.waitForExistence(timeout: 8),
+                      "Expected news detail for article 0 to appear via deep link.")
+    }
+
+    func testUsersDeepLink() {
+        let app = launchWithDeepLink("xcoordinator-example://users/Paul")
+        XCTAssertTrue(app.staticTexts["Paul"].waitForExistence(timeout: 10),
+                      "Expected user detail screen for 'Paul' to appear via deep link.")
+    }
+
+    func testUnknownURLIsIgnored() {
+        let app = launchWithDeepLink("xcoordinator-example://nonsense/whatever")
+        XCTAssertTrue(app.buttons[ID.loginButton].waitForExistence(timeout: 5),
+                      "App should fall back to the login screen for unrecognised URLs.")
+    }
+
+    // MARK: - Peek/pop removal: long-press is now a no-op (used to register a 3D-Touch peek source)
+
+    func testLongPressOnUserListDoesNotCrash() {
+        let app = launch()
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.tab].tap()
+        assertContainerVisible(ID.homeContainerTab, in: app)
+
+        let users = app.buttons[ID.usersButton]
+        XCTAssertTrue(users.waitForExistence(timeout: 5), "Users button never appeared")
+        users.tap()
+
+        let firstCell = app.cells.firstMatch
+        XCTAssertTrue(firstCell.waitForExistence(timeout: 5), "User-list cell never appeared")
+        firstCell.press(forDuration: 1.2)
+
+        XCTAssertTrue(app.cells.firstMatch.exists, "App appears to have crashed during long-press")
     }
 }

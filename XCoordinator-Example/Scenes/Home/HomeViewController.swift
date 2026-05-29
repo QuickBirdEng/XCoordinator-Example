@@ -29,6 +29,7 @@ class HomeViewController: UIViewController, BindableType {
         super.viewDidLoad()
 
         title = "Home"
+        usersButton.accessibilityIdentifier = UITestIdentifiers.usersButton
     }
 
     // MARK: BindableType
@@ -45,8 +46,6 @@ class HomeViewController: UIViewController, BindableType {
         aboutButton.rx.tap
             .bind(to: viewModel.input.aboutTrigger)
             .disposed(by: disposeBag)
-        
-        viewModel.registerPeek(for: usersButton)
     }
 
 }

@@ -10,6 +10,8 @@ import UIKit
 import XCoordinator
 
 extension Animation {
+    /// Scale-and-fade transition: the incoming view grows from near-zero to full size while the outgoing
+    /// view fades out. Used as the iOS 9 fallback for `.swirl` in `NewsCoordinator`.
     static let scale = Animation(
         presentation: InteractiveTransitionAnimation.scalePresentation,
         dismissal: InteractiveTransitionAnimation.scaleDismissal
@@ -51,7 +53,6 @@ extension InteractiveTransitionAnimation {
 
         toView.alpha = 0
         fromView.layer.masksToBounds = true
-        let cornerRadius = max(fromView.frame.height, fromView.frame.width)
 
         UIView.animate(withDuration: defaultAnimationDuration, animations: {
             fromView.transform.scale(by: .verySmall)

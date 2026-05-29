@@ -42,10 +42,4 @@ class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput 
         self.router = router
     }
 
-    // MARK: Methods
-
-    func registerPeek(for sourceView: Container) {
-        router.trigger(.registerUsersPeek(from: sourceView))
-    }
-
 }
