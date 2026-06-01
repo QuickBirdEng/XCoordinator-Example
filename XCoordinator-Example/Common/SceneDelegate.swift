@@ -29,8 +29,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //
         // The handler is dispatched to the next runloop so the AppCoordinator's initial `.login` route
         // has finished pushing before we trigger the deep-link chain.
-        let coldLaunchURL = ProcessInfo.processInfo.environment["XCOORDINATOR_DEEP_LINK"].flatMap(URL.init(string:))
-            ?? connectionOptions.urlContexts.first?.url
+        var coldLaunchURL = connectionOptions.urlContexts.first?.url
+        #if DEBUG
+        // Test-only hook: UI tests can't reach `connectionOptions`, so they inject a cold-launch deep
+        // link via this env var. Gated to DEBUG so it never ships in release builds.
+        coldLaunchURL = ProcessInfo.processInfo.environment["XCOORDINATOR_DEEP_LINK"].flatMap(URL.init(string:))
+            ?? coldLaunchURL
+        #endif
         if let url = coldLaunchURL {
             DispatchQueue.main.async { [weak self] in
                 self?.handle(url: url)

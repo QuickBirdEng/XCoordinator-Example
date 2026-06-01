@@ -130,8 +130,11 @@ final class XCoordinator_ExampleUITests: XCTestCase {
 
     func testNewsDeepLinkFromColdLaunch() {
         let app = launchWithDeepLink("xcoordinator-example://news/0")
-        // Title label is "Article 0\nStefan" (title + newline + subtitle), so match by prefix.
-        let predicate = NSPredicate(format: "label BEGINSWITH 'Article 0'")
+        // The detail screen's single title label joins the title and subtitle into one string
+        // ("Article 0" + "Stefan"). The news *list* renders the title and subtitle as two separate
+        // cell labels and never joins them, so a single label containing BOTH is detail-only —
+        // asserting the bare "Article 0" would pass even if the final newsDetail push never happened.
+        let predicate = NSPredicate(format: "label CONTAINS %@ AND label CONTAINS %@", "Article 0", "Stefan")
         let title = app.staticTexts.matching(predicate).firstMatch
         XCTAssertTrue(title.waitForExistence(timeout: 8),
                       "Expected news detail for article 0 to appear via deep link.")
@@ -139,7 +142,11 @@ final class XCoordinator_ExampleUITests: XCTestCase {
 
     func testUsersDeepLink() {
         let app = launchWithDeepLink("xcoordinator-example://users/Paul")
-        XCTAssertTrue(app.staticTexts["Paul"].waitForExistence(timeout: 10),
+        // Assert on the "Close" bar button, which only exists on the modal UserViewController detail
+        // screen. The user *list* renders "Paul" as a cell label too, so asserting `staticTexts["Paul"]`
+        // would pass even if the final UserListRoute.user push silently failed — match a detail-only
+        // element instead so the test actually proves navigation reached the detail screen.
+        XCTAssertTrue(app.buttons["Close"].waitForExistence(timeout: 10),
                       "Expected user detail screen for 'Paul' to appear via deep link.")
     }
 
