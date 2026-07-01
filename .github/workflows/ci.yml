@@ -17,10 +17,18 @@ jobs:
 
       - name: Build and test
         run: |
+          # Pick whatever iPhone simulator the runner image ships with, rather than hardcoding a
+          # model name (which breaks whenever GitHub bumps the Xcode/runtime — e.g. iPhone 16 → 17).
+          UDID=$(xcrun simctl list devices available --json \
+            | jq -r '[.devices[][] | select(.name | startswith("iPhone"))][0].udid')
+          if [ -z "$UDID" ] || [ "$UDID" = "null" ]; then
+            echo "No available iPhone simulator found"; xcrun simctl list devices available; exit 1
+          fi
+          echo "Using simulator $UDID"
           xcodebuild \
             -project XCoordinator-Example.xcodeproj \
             -scheme XCoordinator-Example \
             -testPlan XCoordinator-Example \
-            -destination 'platform=iOS Simulator,OS=latest,name=iPhone 16' \
+            -destination "id=$UDID" \
             CODE_SIGNING_ALLOWED=NO \
             test

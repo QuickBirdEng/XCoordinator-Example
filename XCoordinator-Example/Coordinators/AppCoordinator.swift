@@ -13,8 +13,9 @@ import XCoordinator
 enum AppRoute: Route {
     /// Push the login screen. Used as the initial route.
     case login
-    /// Present the home flow. Pass `nil` to show the picker that lets the user choose one of `HomeTabCoordinator`,
-    /// `HomeSplitCoordinator`, or `HomePageCoordinator`; pass a concrete router to skip the picker.
+    /// Present the home flow. Pass `nil` to show the picker that lets the user choose one of
+    /// `HomeTabCoordinator`, `HomeSplitCoordinator`, `HomePageCoordinator`, or `HomeSwiftUICoordinator`;
+    /// pass a concrete router to skip the picker.
     case home((any Router<HomeRoute>)?)
     /// Deep-link into a specific article, tearing down any modal stack and resetting navigation first.
     case newsDetail(News)
@@ -71,7 +72,7 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
             return .presentFullScreen(router, animation: .fade)
         } else {
             // No router supplied → present an ad-hoc `UIAlertController` that lets the user pick one of the
-            // three home-flow coordinators; the chosen coordinator is re-triggered through `.home(...)`,
+            // four home-flow coordinators; the chosen coordinator is re-triggered through `.home(...)`,
             // demonstrating that a `Transition` can present arbitrary decision UI.
             return .present(makeHomePickerAlert())
         }

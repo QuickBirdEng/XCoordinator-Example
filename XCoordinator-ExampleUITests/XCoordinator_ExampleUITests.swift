@@ -49,7 +49,9 @@ final class XCoordinator_ExampleUITests: XCTestCase {
         let loginButton = app.buttons[ID.loginButton]
         XCTAssertTrue(loginButton.waitForExistence(timeout: 5), "Login button never appeared")
         loginButton.tap()
-        let alert = app.alerts.firstMatch
+        // Match the picker alert by its title rather than `app.alerts.firstMatch`, so the helper is not
+        // thrown off by any other alert that might be on screen.
+        let alert = app.alerts["How would you like to login?"]
         XCTAssertTrue(alert.waitForExistence(timeout: 5), "Picker alert never appeared")
         return alert
     }
