@@ -14,13 +14,17 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Router<NewsRoute>
+    private let userListRouter: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
-         userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
+    convenience init() {
+        self.init(newsRouter: NewsCoordinator(), userListRouter: UserListCoordinator())
+    }
+
+    init(newsRouter: any Router<NewsRoute>,
+         userListRouter: any Router<UserListRoute>) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
 
@@ -37,13 +41,14 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
     // MARK: Overrides
 
     override func prepareTransition(for route: HomeRoute) -> PageTransition {
-        // `setReliably` instead of the stock `.set` so that deep links chaining through this coordinator
-        // don't stall when the target page is already on-screen — see Extensions/Transitions.swift.
+        // XCoordinator 3's stock `.set` already calls its completion even when the target page is already
+        // on-screen, so deep links chaining through this coordinator no longer stall (this used to require a
+        // custom `.setReliably`, since removed).
         switch route {
         case .news:
-            return .setReliably(newsRouter, direction: .forward)
+            .set(newsRouter, direction: .forward)
         case .userList:
-            return .setReliably(userListRouter, direction: .reverse)
+            .set(userListRouter, direction: .reverse)
         }
     }
 

@@ -1,5 +1,5 @@
 {
-  "originHash" : "5d5a6fcf63f9ca094c24fbe84c948b9dd4403adf50e1cd46835046ac2743aa5c",
+  "originHash" : "9c1864d231eb59d38d87aa55b3dfc4457908bde0f6050dc7bd59267a70bfaa2d",
   "pins" : [
     {
       "identity" : "action",
@@ -22,10 +22,9 @@
     {
       "identity" : "xcoordinator",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/quickbirdstudios/XCoordinator.git",
+      "location" : "https://github.com/QuickBirdEng/XCoordinator.git",
       "state" : {
-        "revision" : "00b066139ed0bf2f68549a7d87434ed36dfa6dea",
-        "version" : "2.2.1"
+        "revision" : "9496ecaa81a82de7a20715afd8c14ce78bdb300f"
       }
     }
   ],

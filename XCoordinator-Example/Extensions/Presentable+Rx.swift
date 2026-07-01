@@ -15,6 +15,7 @@ import XCoordinator
 
 extension Reactive where Base: Presentable {
 
+    @MainActor
     public var dismissal: Observable<Void>! {
         guard let viewController = base.viewController else {
             return nil

@@ -15,7 +15,7 @@ enum AppRoute: Route {
     case login
     /// Present the home flow. Pass `nil` to show the picker that lets the user choose one of `HomeTabCoordinator`,
     /// `HomeSplitCoordinator`, or `HomePageCoordinator`; pass a concrete router to skip the picker.
-    case home(StrongRouter<HomeRoute>?)
+    case home((any Router<HomeRoute>)?)
     /// Deep-link into a specific article, tearing down any modal stack and resetting navigation first.
     case newsDetail(News)
     /// Deep-link into a specific user, tearing down any modal stack and resetting navigation first.
@@ -34,86 +34,102 @@ class AppCoordinator: NavigationCoordinator<AppRoute> {
 
     // MARK: Overrides
 
+    // `@TransitionBuilder` (inherited from `BaseCoordinator.prepareTransition`) lets each case read as a
+    // single declarative `Transition` expression with no `return`. View-controller construction is
+    // extracted into the helpers below so each case stays a plain expression.
     override func prepareTransition(for route: AppRoute) -> NavigationTransition {
         switch route {
         case .login:
-            let viewController = LoginViewController.instantiateFromNib()
-            let viewModel = LoginViewModelImpl(router: unownedRouter)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Transition.push(makeLoginViewController())
         case let .home(router):
-            if let router = router {
-                return .presentFullScreen(router, animation: .fade)
-            }
-            // Teaching device: when no router is supplied, the route itself resolves to a `UIAlertController`
-            // that lets the user pick one of the three home-flow coordinators. The chosen coordinator's
-            // router is then re-triggered through `.home(...)`, demonstrating that a `Transition` can be
-            // anything you can `.present`, including ad-hoc decision UI.
-            let alert = UIAlertController(
-                title: "How would you like to login?",
-                message: "Please choose the type of coordinator used for the `Home` scene.",
-                preferredStyle: .alert)
-            alert.addAction(
-                .init(title: "\(HomeTabCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomeTabCoordinator().strongRouter))
-                }
-            )
-            alert.addAction(
-                .init(title: "\(HomeSplitCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomeSplitCoordinator().strongRouter))
-                }
-            )
-            alert.addAction(
-                .init(title: "\(HomePageCoordinator.self)", style: .default) { [unowned self] _ in
-                    self.trigger(.home(HomePageCoordinator().strongRouter))
-                }
-            )
-            alert.addAction(
-                .init(title: "Random", style: .default) { [unowned self] _ in
-                    let routers: [() -> StrongRouter<HomeRoute>] = [
-                        { HomeTabCoordinator().strongRouter },
-                        { HomeSplitCoordinator().strongRouter },
-                        { HomePageCoordinator().strongRouter }
-                    ]
-                    let factory: (() -> StrongRouter<HomeRoute>)?
-                    if let index = Self.testRandomPickerIndex, routers.indices.contains(index) {
-                        factory = routers[index]
-                    } else {
-                        factory = routers.randomElement()
-                    }
-                    self.trigger(.home(factory?()))
-                }
-            )
-            return .present(alert)
+            homeTransition(for: router)
         case .newsDetail(let news):
-            // Deep-link demo: `.multiple` chains transitions in sequence, and `deepLink(...)` walks down the
-            // coordinator hierarchy by triggering successive routes (AppRoute → HomeRoute → NewsRoute).
-            // The leading `.dismissAll()` + `.popToRoot()` guarantee a clean slate regardless of where in
-            // the navigation tree the user happens to be when the link fires.
-            return .multiple(
-                .dismissAll(),
-                .popToRoot(),
-                deepLink(AppRoute.home(HomePageCoordinator().strongRouter),
-                         HomeRoute.news,
-                         NewsRoute.newsDetail(news))
-            )
+            // Deep-link demo: `.multiple` runs the transitions in sequence, and `deepLink(...)` walks down
+            // the coordinator hierarchy (AppRoute → HomeRoute → NewsRoute). The leading `.dismissAll()` +
+            // `.popToRoot()` guarantee a clean slate wherever the link fires.
+            Transition.multiple(.dismissAll(), .popToRoot(),
+                                deepLink(AppRoute.home(HomePageCoordinator()),
+                                         HomeRoute.news,
+                                         NewsRoute.newsDetail(news)))
         case let .userDetail(username):
             // Same deep-link shape as `.newsDetail`, ending in a modal present of the user detail.
-            // Note this targets `HomeRoute.userList`, which is `HomePageCoordinator`'s initial page —
-            // it works because `HomePageCoordinator` uses `setReliably` (see Extensions/Transitions.swift),
-            // which fires the transition completion even when the page is already on-screen, so the chain
-            // continues to `UserListRoute.user` instead of stalling.
-            return .multiple(
-                .dismissAll(),
-                .popToRoot(),
-                deepLink(AppRoute.home(HomePageCoordinator().strongRouter),
-                         HomeRoute.userList,
-                         UserListRoute.user(username))
-            )
+            // Targets `HomeRoute.userList`, `HomePageCoordinator`'s initial page — it works because
+            // XCoordinator 3's `.set` fires its completion even when the page is already on-screen, so the
+            // chain continues instead of stalling.
+            Transition.multiple(.dismissAll(), .popToRoot(),
+                                deepLink(AppRoute.home(HomePageCoordinator()),
+                                         HomeRoute.userList,
+                                         UserListRoute.user(username)))
         }
     }
 
     // MARK: Methods
+
+    /// When a concrete home router is supplied, present it full-screen; otherwise present the picker alert.
+    private func homeTransition(for router: (any Router<HomeRoute>)?) -> NavigationTransition {
+        if let router {
+            return .presentFullScreen(router, animation: .fade)
+        } else {
+            // No router supplied → present an ad-hoc `UIAlertController` that lets the user pick one of the
+            // three home-flow coordinators; the chosen coordinator is re-triggered through `.home(...)`,
+            // demonstrating that a `Transition` can present arbitrary decision UI.
+            return .present(makeHomePickerAlert())
+        }
+    }
+
+    private func makeLoginViewController() -> UIViewController {
+        let viewController = LoginViewController.instantiateFromNib()
+        let viewModel = LoginViewModelImpl(router: self)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    private func makeHomePickerAlert() -> UIAlertController {
+        let alert = UIAlertController(
+            title: "How would you like to login?",
+            message: "Please choose the type of coordinator used for the `Home` scene.",
+            preferredStyle: .alert)
+        alert.addAction(
+            .init(title: "\(HomeTabCoordinator.self)", style: .default) { [unowned self] _ in
+                self.trigger(.home(HomeTabCoordinator()))
+            }
+        )
+        alert.addAction(
+            .init(title: "\(HomeSplitCoordinator.self)", style: .default) { [unowned self] _ in
+                self.trigger(.home(HomeSplitCoordinator()))
+            }
+        )
+        alert.addAction(
+            .init(title: "\(HomePageCoordinator.self)", style: .default) { [unowned self] _ in
+                self.trigger(.home(HomePageCoordinator()))
+            }
+        )
+        alert.addAction(
+            .init(title: "\(HomeSwiftUICoordinator.self)", style: .default) { [unowned self] _ in
+                self.trigger(.home(HomeSwiftUICoordinator()))
+            }
+        )
+        alert.addAction(
+            .init(title: "Random", style: .default) { [unowned self] _ in
+                // `HomeSwiftUICoordinator` is appended last so the UI tests that pass
+                // `--random-picker-index 0/1/2` still resolve to Tab/Split/Page respectively.
+                let routers: [() -> any Router<HomeRoute>] = [
+                    { HomeTabCoordinator() },
+                    { HomeSplitCoordinator() },
+                    { HomePageCoordinator() },
+                    { HomeSwiftUICoordinator() }
+                ]
+                let factory: (() -> any Router<HomeRoute>)?
+                if let index = Self.testRandomPickerIndex, routers.indices.contains(index) {
+                    factory = routers[index]
+                } else {
+                    factory = routers.randomElement()
+                }
+                self.trigger(.home(factory?()))
+            }
+        )
+        return alert
+    }
 
     /// Returns the index value from `--random-picker-index N` launch argument, if present and parseable.
     /// Used by UI tests to make the Random picker deterministic; nil in normal runs.

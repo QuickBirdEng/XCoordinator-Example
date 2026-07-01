@@ -22,6 +22,15 @@ extension InteractiveTransitionAnimation {
         let containerView = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)!
 
+        // Give the incoming view its final frame before animating. UIKit does not pre-size the
+        // presented view when a custom animator drives the transition, and a `UIHostingController`
+        // whose view has no frame lays out to zero size and renders blank. Setting the final frame
+        // (plus autoresizing) keeps the fade working for UIKit *and* SwiftUI-hosted view controllers.
+        if let toViewController = transitionContext.viewController(forKey: .to) {
+            toView.frame = transitionContext.finalFrame(for: toViewController)
+        }
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
         toView.alpha = 0.0
         containerView.addSubview(toView)
 

@@ -36,21 +36,35 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
     override func prepareTransition(for route: UserRoute) -> NavigationTransition {
         switch route {
         case .randomColor:
-            let viewController = UIViewController()
-            viewController.view.backgroundColor = .random()
-            return .push(viewController, animation: .fade)
+            Transition.push(makeRandomColorViewController(), animation: .fade)
         case let .user(username):
-            let viewController = UserViewController.instantiateFromNib()
-            let viewModel = UserViewModelImpl(router: unownedRouter, username: username)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Transition.push(makeUserViewController(username: username))
         case let .alert(title, message):
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            return .present(alert)
+            Transition.present(makeAlert(title: title, message: message))
         case .users:
-            return .dismiss()
+            Transition.dismiss()
         }
+    }
+
+    // MARK: Factories
+
+    private func makeRandomColorViewController() -> UIViewController {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .random()
+        return viewController
+    }
+
+    private func makeUserViewController(username: String) -> UIViewController {
+        let viewController = UserViewController.instantiateFromNib()
+        let viewModel = UserViewModelImpl(router: self, username: username)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    private func makeAlert(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        return alert
     }
 
     override func presented(from presentable: Presentable?) {

@@ -6,6 +6,7 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
+import UIKit
 import XCoordinator
 
 /// Routes for the user-list flow: the home screen, the users list, a single user's detail,
@@ -38,27 +39,40 @@ class UserListCoordinator: NavigationCoordinator<UserListRoute> {
     override func prepareTransition(for route: UserListRoute) -> NavigationTransition {
         switch route {
         case .home:
-            let viewController = HomeViewController.instantiateFromNib()
-            let viewModel = HomeViewModelImpl(router: unownedRouter)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Transition.push(makeHomeViewController())
         case .users:
-            let viewController = UsersViewController.instantiateFromNib()
-            let viewModel = UsersViewModelImpl(userService: MockUserService(), router: unownedRouter)
-            viewController.bind(to: viewModel)
-            return .push(viewController, animation: .fade)
+            Transition.push(makeUsersViewController(), animation: .fade)
         case .user(let username):
-            let coordinator = UserCoordinator(user: username)
-            return .present(coordinator, animation: .default)
+            Transition.present(UserCoordinator(user: username), animation: .default)
         case .logout:
-            return .dismiss()
+            Transition.dismiss()
         case .about:
-            // Child-coordinator idiom: `AboutCoordinator` reuses *this* coordinator's `UINavigationController`
-            // (passed as `rootViewController`), so its pushes happen inside the same stack. Nothing needs to
-            // be presented or pushed at this level — hence `.none()` paired with `addChild(...)`.
-            addChild(AboutCoordinator(rootViewController: rootViewController))
-            return .none()
+            attachAboutCoordinator()
         }
+    }
+
+    // MARK: Helpers
+
+    private func makeHomeViewController() -> UIViewController {
+        let viewController = HomeViewController.instantiateFromNib()
+        let viewModel = HomeViewModelImpl(router: self)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    private func makeUsersViewController() -> UIViewController {
+        let viewController = UsersViewController.instantiateFromNib()
+        let viewModel = UsersViewModelImpl(userService: MockUserService(), router: self)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    private func attachAboutCoordinator() -> NavigationTransition {
+        // Child-coordinator idiom: `AboutCoordinator` reuses *this* coordinator's `UINavigationController`
+        // (passed as `rootViewController`), so its pushes happen inside the same stack. Nothing needs to
+        // be presented or pushed at this level — hence `.none()` paired with `addChild(...)`.
+        addChild(AboutCoordinator(rootViewController: rootViewController))
+        return .none()
     }
 
 }

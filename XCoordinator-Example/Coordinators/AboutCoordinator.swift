@@ -34,19 +34,29 @@ class AboutCoordinator: NavigationCoordinator<AboutRoute> {
     override func prepareTransition(for route: AboutRoute) -> NavigationTransition {
         switch route {
         case .home:
-            let viewController = AboutViewController()
-            let viewModel = AboutViewModelImpl(router: unownedRouter)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Transition.push(makeAboutViewController())
         case .website:
-            // Custom side-effecting `Transition`: there is no view controller to present, but the
-            // route still needs to flow through the coordinator. Passing `presentables: []` and a
-            // closure that opens the URL externally lets the routing pipeline drive arbitrary work.
-            let url = URL(string: "https://quickbirdstudios.com/")!
-            return Transition(presentables: [], animationInUse: nil) { _, _, completion in
-                UIApplication.shared.open(url)
-                completion?()
-            }
+            openWebsiteTransition()
+        }
+    }
+
+    // MARK: Helpers
+
+    private func makeAboutViewController() -> UIViewController {
+        let viewController = AboutViewController()
+        let viewModel = AboutViewModelImpl(router: self)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    /// Custom side-effecting `Transition`: there is no view controller to present, but the route still
+    /// needs to flow through the coordinator. Passing `presentables: []` and a closure that opens the URL
+    /// externally lets the routing pipeline drive arbitrary work.
+    private func openWebsiteTransition() -> NavigationTransition {
+        let url = URL(string: "https://quickbirdstudios.com/")!
+        return Transition(presentables: [], animationInUse: nil) { _, _, completion in
+            UIApplication.shared.open(url)
+            completion?()
         }
     }
 

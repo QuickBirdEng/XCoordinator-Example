@@ -22,14 +22,18 @@ extension InteractiveTransitionAnimation {
         let toView: UIView = context.view(forKey: .to)!
         let fromView: UIView = context.view(forKey: .from)!
 
-        var startToFrame = fromView.frame
+        // Drive the incoming view from its final frame (a custom animator owns layout; a
+        // `UIHostingController` without a frame renders blank — see Animation+Fade).
+        let finalFrame = context.viewController(forKey: .to).map(context.finalFrame(for:)) ?? fromView.frame
+        var startToFrame = finalFrame
         startToFrame.origin.y += startToFrame.height
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         context.containerView.addSubview(toView)
         context.containerView.bringSubviewToFront(toView)
         toView.frame = startToFrame
 
         UIView.animate(withDuration: duration, animations: {
-            toView.frame = fromView.frame
+            toView.frame = finalFrame
         }, completion: { _ in
             context.completeTransition(!context.transitionWasCancelled)
         })
@@ -39,10 +43,13 @@ extension InteractiveTransitionAnimation {
         let toView: UIView = context.view(forKey: .to)!
         let fromView: UIView = context.view(forKey: .from)!
 
+        let finalFrame = context.viewController(forKey: .to).map(context.finalFrame(for:)) ?? toView.frame
+        toView.frame = finalFrame
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         context.containerView.addSubview(toView)
         context.containerView.sendSubviewToBack(toView)
-        var newFromFrame = toView.frame
-        newFromFrame.origin.y += toView.frame.height
+        var newFromFrame = finalFrame
+        newFromFrame.origin.y += finalFrame.height
 
         UIView.animate(withDuration: duration, animations: {
             fromView.frame = newFromFrame

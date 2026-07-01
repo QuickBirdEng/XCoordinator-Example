@@ -6,14 +6,16 @@
 //
 
 import UIKit
+import XCoordinator
 
 /// Owns the app window per scene and bootstraps the routing tree.
-/// `AppCoordinator().strongRouter` holds the entire coordinator graph for this scene's lifetime;
+/// The `AppCoordinator` holds the entire coordinator graph for this scene's lifetime;
 /// `setRoot(for:)` installs `AppCoordinator.rootViewController` as the window's `rootViewController`.
+/// Typed as `any Router<AppRoute>` so this layer only knows it as a router, not the concrete coordinator.
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    private let router = AppCoordinator().strongRouter
+    private let router: any Router<AppRoute> = AppCoordinator()
 
     func scene(_ scene: UIScene,
                willConnectTo session: UISceneSession,

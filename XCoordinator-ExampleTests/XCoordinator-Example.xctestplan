@@ -20,13 +20,6 @@
     {
       "target" : {
         "containerPath" : "container:XCoordinator-Example.xcodeproj",
-        "identifier" : "9B56574A2315FA7E00F4F4F7",
-        "name" : "XCoordinator-ExampleTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:XCoordinator-Example.xcodeproj",
         "identifier" : "9B5657552315FA7E00F4F4F7",
         "name" : "XCoordinator-ExampleUITests"
       }

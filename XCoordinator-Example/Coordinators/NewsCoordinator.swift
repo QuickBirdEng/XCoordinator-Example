@@ -6,6 +6,7 @@
 //  Copyright © 2018 QuickBird Studios. All rights reserved.
 //
 
+import UIKit
 import XCoordinator
 
 /// Routes for the news flow: the news list, a specific article, and a "close everything" command
@@ -33,19 +34,29 @@ class NewsCoordinator: NavigationCoordinator<NewsRoute> {
     override func prepareTransition(for route: NewsRoute) -> NavigationTransition {
         switch route {
         case .news:
-            let viewController = NewsViewController.instantiateFromNib()
-            let service = MockNewsService()
-            let viewModel = NewsViewModelImpl(newsService: service, router: unownedRouter)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Transition.push(makeNewsViewController())
         case .newsDetail(let news):
-            let viewController = NewsDetailViewController.instantiateFromNib()
-            let viewModel = NewsDetailViewModelImpl(news: news)
-            viewController.bind(to: viewModel)
-            return .push(viewController, animation: .swirl)
+            Transition.push(makeNewsDetailViewController(news: news), animation: .swirl)
         case .close:
-            return .dismissToRoot()
+            Transition.dismissToRoot()
         }
+    }
+
+    // MARK: Factories
+
+    private func makeNewsViewController() -> UIViewController {
+        let viewController = NewsViewController.instantiateFromNib()
+        let service = MockNewsService()
+        let viewModel = NewsViewModelImpl(newsService: service, router: self)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    private func makeNewsDetailViewController(news: News) -> UIViewController {
+        let viewController = NewsDetailViewController.instantiateFromNib()
+        let viewModel = NewsDetailViewModelImpl(news: news)
+        viewController.bind(to: viewModel)
+        return viewController
     }
 
 }

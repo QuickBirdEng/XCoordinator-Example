@@ -24,6 +24,7 @@ private enum PickerLabel {
     static let tab = "HomeTabCoordinator"
     static let split = "HomeSplitCoordinator"
     static let page = "HomePageCoordinator"
+    static let swiftUI = "HomeSwiftUICoordinator"
     static let random = "Random"
 }
 
@@ -117,6 +118,35 @@ final class XCoordinator_ExampleUITests: XCTestCase {
         let app = launch(arguments: [ID.randomPickerIndexArg, "2"])
         tapLoginAndWaitForPicker(app).buttons[PickerLabel.random].tap()
         assertContainerVisible(ID.homeContainerPage, in: app)
+    }
+
+    // MARK: - SwiftUI container hosts the UIKit sub-flows (both interop directions)
+
+    /// Picking the SwiftUI container must:
+    /// 1. show the SwiftUI host (forward: `ViewCoordinator(body:)`/`RoutingController`), and
+    /// 2. embed the UIKit `UserListCoordinator` and `NewsCoordinator` via `WrappedRouter`
+    ///    (backward). Switching the segmented control routes through `@Routing<HomeRoute>` and the
+    ///    coordinator's `Transition.withAnimation`, so the News sub-flow becomes interactive.
+    func testSwiftUIContainerHostsBothFlows() {
+        let app = launch()
+        tapLoginAndWaitForPicker(app).buttons[PickerLabel.swiftUI].tap()
+
+        // The SwiftUI host rendered iff its embedded UIKit sub-flow is present. The default tab is the
+        // UserList flow, whose (UIKit) Home screen exposes the users button — proving the forward host
+        // (RoutingController) AND the backward embed (WrappedRouter { UserListCoordinator() }).
+        let users = app.buttons[ID.usersButton]
+        XCTAssertTrue(users.waitForExistence(timeout: 8), "UserList sub-flow (WrappedRouter) never appeared")
+        XCTAssertTrue(users.isHittable, "UserList sub-flow should be the active tab by default")
+
+        // The tab bar drives selection through @Routing<HomeRoute> + Transition.withAnimation.
+        let newsTab = app.tabBars.buttons["News"]
+        XCTAssertTrue(newsTab.waitForExistence(timeout: 5), "News tab (@Routing) never appeared")
+        newsTab.tap()
+
+        // Routing to the News tab must activate the other embedded UIKit flow (news list).
+        let newsCell = app.cells.firstMatch
+        XCTAssertTrue(newsCell.waitForExistence(timeout: 5), "News sub-flow (WrappedRouter) never appeared")
+        XCTAssertTrue(newsCell.isHittable, "News list should be interactive after routing to the News tab")
     }
 
     // MARK: - URL deep linking
