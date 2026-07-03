@@ -11,17 +11,24 @@ import XCoordinator
 
 extension Animation {
 
-    @available(iOS 10.0, *)
+    /// Spin-and-grow transition built on `UIViewPropertyAnimator` (hence interruptible). Used for the
+    /// news-list → news-detail push.
     static let swirl = Animation(presentation: InterruptibleTransitionAnimation.swirlPresentation,
                                  dismissal: InterruptibleTransitionAnimation.swirlDismissal)
 }
 
-@available(iOS 10.0, *)
 extension InterruptibleTransitionAnimation {
     fileprivate static let swirlPresentation = InterruptibleTransitionAnimation(duration: defaultAnimationDuration) { transitionContext in
         let containerView = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)!
         let fromView = transitionContext.view(forKey: .from)!
+
+        // Set the incoming view's final frame before applying any transform. A custom animator owns
+        // layout, and a `UIHostingController`'s view with no frame renders blank. (See Animation+Fade.)
+        if let toViewController = transitionContext.viewController(forKey: .to) {
+            toView.frame = transitionContext.finalFrame(for: toViewController)
+        }
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         containerView.backgroundColor = .white
         toView.transform = CGAffineTransform(scaleX: .verySmall, y: .verySmall)
@@ -51,6 +58,11 @@ extension InterruptibleTransitionAnimation {
         let containerView: UIView = transitionContext.containerView
         let toView: UIView = transitionContext.view(forKey: .to)!
         let fromView: UIView = transitionContext.view(forKey: .from)!
+
+        if let toViewController = transitionContext.viewController(forKey: .to) {
+            toView.frame = transitionContext.finalFrame(for: toViewController)
+        }
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         containerView.backgroundColor = .white
         containerView.addSubview(toView)

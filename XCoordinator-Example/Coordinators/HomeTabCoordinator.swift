@@ -9,17 +9,23 @@
 import UIKit
 import XCoordinator
 
+/// Routes available within the home flow. Shared by all three home coordinators
+/// (`HomeTabCoordinator`, `HomeSplitCoordinator`, `HomePageCoordinator`) — the same route enum drives
+/// three different container types, which is the central teaching device of this example.
 enum HomeRoute: Route {
+    /// Surface the news flow (selects the news tab / detail column / page).
     case news
+    /// Surface the user-list flow (selects the user-list tab / master column / page).
     case userList
 }
 
+/// Home flow rendered as a `UITabBarController`. Demonstrates `TabBarCoordinator` driving `HomeRoute`.
 class HomeTabCoordinator: TabBarCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Router<NewsRoute>
+    private let userListRouter: any Router<UserListRoute>
 
     // MARK: Initialization
 
@@ -30,16 +36,17 @@ class HomeTabCoordinator: TabBarCoordinator<HomeRoute> {
         let userListCoordinator = UserListCoordinator()
         userListCoordinator.rootViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
 
-        self.init(newsRouter: newsCoordinator.strongRouter,
-                  userListRouter: userListCoordinator.strongRouter)
+        self.init(newsRouter: newsCoordinator,
+                  userListRouter: userListCoordinator)
     }
 
-    init(newsRouter: StrongRouter<NewsRoute>,
-         userListRouter: StrongRouter<UserListRoute>) {
+    init(newsRouter: any Router<NewsRoute>,
+         userListRouter: any Router<UserListRoute>) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
 
         super.init(tabs: [newsRouter, userListRouter], select: userListRouter)
+        rootViewController.view.accessibilityIdentifier = UITestIdentifiers.homeContainerTab
     }
 
     // MARK: Overrides
@@ -47,9 +54,9 @@ class HomeTabCoordinator: TabBarCoordinator<HomeRoute> {
     override func prepareTransition(for route: HomeRoute) -> TabBarTransition {
         switch route {
         case .news:
-            return .select(newsRouter)
+            .select(newsRouter)
         case .userList:
-            return .select(userListRouter)
+            .select(userListRouter)
         }
     }
 

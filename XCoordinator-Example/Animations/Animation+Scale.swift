@@ -10,6 +10,8 @@ import UIKit
 import XCoordinator
 
 extension Animation {
+    /// Scale-and-fade transition: the incoming view grows from near-zero to full size while the outgoing
+    /// view fades out. Used as the iOS 9 fallback for `.swirl` in `NewsCoordinator`.
     static let scale = Animation(
         presentation: InteractiveTransitionAnimation.scalePresentation,
         dismissal: InteractiveTransitionAnimation.scaleDismissal
@@ -21,6 +23,13 @@ extension InteractiveTransitionAnimation {
         let containerView = transitionContext.containerView
         let toView = transitionContext.view(forKey: .to)!
         let fromView = transitionContext.view(forKey: .from)!
+
+        // Set the incoming view's final frame before applying any transform. A custom animator owns
+        // layout, and a `UIHostingController`'s view with no frame renders blank. (See Animation+Fade.)
+        if let toViewController = transitionContext.viewController(forKey: .to) {
+            toView.frame = transitionContext.finalFrame(for: toViewController)
+        }
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
         containerView.backgroundColor = .white
         toView.transform = CGAffineTransform(scaleX: .verySmall, y: .verySmall)
@@ -45,13 +54,17 @@ extension InteractiveTransitionAnimation {
         let toView: UIView = transitionContext.view(forKey: .to)!
         let fromView: UIView = transitionContext.view(forKey: .from)!
 
+        if let toViewController = transitionContext.viewController(forKey: .to) {
+            toView.frame = transitionContext.finalFrame(for: toViewController)
+        }
+        toView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
         containerView.backgroundColor = .white
         containerView.addSubview(toView)
         containerView.sendSubviewToBack(toView)
 
         toView.alpha = 0
         fromView.layer.masksToBounds = true
-        let cornerRadius = max(fromView.frame.height, fromView.frame.width)
 
         UIView.animate(withDuration: defaultAnimationDuration, animations: {
             fromView.transform.scale(by: .verySmall)

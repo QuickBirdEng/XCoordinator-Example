@@ -8,20 +8,26 @@
 
 import XCoordinator
 
+/// Home flow rendered as a horizontally-scrolling `UIPageViewController`. Demonstrates `PageCoordinator`
+/// driving `HomeRoute` — same routes as `HomeTabCoordinator`, different container.
 class HomePageCoordinator: PageCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Router<NewsRoute>
+    private let userListRouter: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
-         userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
+    convenience init() {
+        self.init(newsRouter: NewsCoordinator(), userListRouter: UserListCoordinator())
+    }
+
+    init(newsRouter: any Router<NewsRoute>,
+         userListRouter: any Router<UserListRoute>) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
-        
+
         super.init(
             rootViewController: .init(transitionStyle: .scroll,
                                       navigationOrientation: .horizontal,
@@ -29,16 +35,20 @@ class HomePageCoordinator: PageCoordinator<HomeRoute> {
             pages: [userListRouter, newsRouter], loop: false,
             set: userListRouter, direction: .forward
         )
+        rootViewController.view.accessibilityIdentifier = UITestIdentifiers.homeContainerPage
     }
 
     // MARK: Overrides
 
     override func prepareTransition(for route: HomeRoute) -> PageTransition {
+        // XCoordinator 3's stock `.set` already calls its completion even when the target page is already
+        // on-screen, so deep links chaining through this coordinator no longer stall (this used to require a
+        // custom `.setReliably`, since removed).
         switch route {
         case .news:
-            return .set(newsRouter, direction: .forward)
+            .set(newsRouter, direction: .forward)
         case .userList:
-            return .set(userListRouter, direction: .reverse)
+            .set(userListRouter, direction: .reverse)
         }
     }
 

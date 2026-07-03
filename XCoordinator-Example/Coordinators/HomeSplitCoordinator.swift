@@ -8,21 +8,28 @@
 
 import XCoordinator
 
+/// Home flow rendered as a `UISplitViewController`. Demonstrates `SplitCoordinator` driving `HomeRoute`
+/// — same routes as `HomeTabCoordinator`, different container.
 class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
 
     // MARK: Stored properties
 
-    private let newsRouter: StrongRouter<NewsRoute>
-    private let userListRouter: StrongRouter<UserListRoute>
+    private let newsRouter: any Router<NewsRoute>
+    private let userListRouter: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(newsRouter: StrongRouter<NewsRoute> = NewsCoordinator().strongRouter,
-         userListRouter: StrongRouter<UserListRoute> = UserListCoordinator().strongRouter) {
+    convenience init() {
+        self.init(newsRouter: NewsCoordinator(), userListRouter: UserListCoordinator())
+    }
+
+    init(newsRouter: any Router<NewsRoute>,
+         userListRouter: any Router<UserListRoute>) {
         self.newsRouter = newsRouter
         self.userListRouter = userListRouter
 
-        super.init(master: userListRouter, detail: newsRouter)
+        super.init(primary: userListRouter, secondary: newsRouter)
+        rootViewController.view.accessibilityIdentifier = UITestIdentifiers.homeContainerSplit
     }
 
     // MARK: Overrides
@@ -30,9 +37,9 @@ class HomeSplitCoordinator: SplitCoordinator<HomeRoute> {
     override func prepareTransition(for route: HomeRoute) -> SplitTransition {
         switch route {
         case .news:
-            return .showDetail(newsRouter)
+            .showDetail(newsRouter)
         case .userList:
-            return .show(userListRouter)
+            .show(userListRouter)
         }
     }
 

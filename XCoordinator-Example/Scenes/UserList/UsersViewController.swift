@@ -22,7 +22,7 @@ class UsersViewController: UIViewController, BindableType {
     private let disposeBag = DisposeBag()
     private let cellIdentifier = String(describing: DetailTableViewCell.self)
 
-    // MARK: Initialization
+    // MARK: Overrides
 
     override func viewDidLoad() {
         super.viewDidLoad()

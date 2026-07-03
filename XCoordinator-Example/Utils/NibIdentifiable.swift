@@ -9,6 +9,9 @@
 import Foundation
 import UIKit
 
+/// Convention for view classes whose name matches their `.xib` file. Provides `instantiateFromNib()` on
+/// `UIViewController` and `UIView`, which every coordinator in this app uses to construct screens
+/// (e.g. `NewsViewController.instantiateFromNib()`).
 protocol NibIdentifiable {
     static var nibIdentifier: String { get }
 }

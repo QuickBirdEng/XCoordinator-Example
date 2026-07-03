@@ -27,6 +27,7 @@ class LoginViewController: UIViewController, BindableType {
         super.viewDidLoad()
 
         title = "Login"
+        loginButton.accessibilityIdentifier = UITestIdentifiers.loginButton
     }
 
     // MARK: BindableType

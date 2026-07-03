@@ -9,13 +9,20 @@
 import UIKit
 import XCoordinator
 
+/// Routes for the user-detail modal flow.
 enum UserRoute: Route {
+    /// Push the user-detail screen for the named user. Used as the initial route.
     case user(String)
+    /// Present a `UIAlertController` with the given title and message.
     case alert(title: String, message: String)
+    /// Dismiss the modal user flow back to the user list.
     case users
+    /// Push a screen with a random background colour — the target of the interactive edge-pan gesture.
     case randomColor
 }
 
+/// Modal user-detail flow. Demonstrates an interactive (gesture-driven) transition: the edge-pan
+/// recognizer registered in `presented(from:)` interactively pushes `.randomColor`.
 class UserCoordinator: NavigationCoordinator<UserRoute> {
 
     // MARK: Initialization
@@ -29,21 +36,35 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
     override func prepareTransition(for route: UserRoute) -> NavigationTransition {
         switch route {
         case .randomColor:
-            let viewController = UIViewController()
-            viewController.view.backgroundColor = .random()
-            return .push(viewController, animation: .fade)
+            Transition.push(makeRandomColorViewController(), animation: .fade)
         case let .user(username):
-            let viewController = UserViewController.instantiateFromNib()
-            let viewModel = UserViewModelImpl(router: unownedRouter, username: username)
-            viewController.bind(to: viewModel)
-            return .push(viewController)
+            Transition.push(makeUserViewController(username: username))
         case let .alert(title, message):
-            let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            return .present(alert)
+            Transition.present(makeAlert(title: title, message: message))
         case .users:
-            return .dismiss()
+            Transition.dismiss()
         }
+    }
+
+    // MARK: Factories
+
+    private func makeRandomColorViewController() -> UIViewController {
+        let viewController = UIViewController()
+        viewController.view.backgroundColor = .random()
+        return viewController
+    }
+
+    private func makeUserViewController(username: String) -> UIViewController {
+        let viewController = UserViewController.instantiateFromNib()
+        let viewModel = UserViewModelImpl(router: self, username: username)
+        viewController.bind(to: viewModel)
+        return viewController
+    }
+
+    private func makeAlert(title: String, message: String) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+        return alert
     }
 
     override func presented(from presentable: Presentable?) {
@@ -59,6 +80,9 @@ class UserCoordinator: NavigationCoordinator<UserRoute> {
         gestureRecognizer.edges = .right
         view?.addGestureRecognizer(gestureRecognizer)
 
+        // Interactive-transition wiring: pan progress drives the `.randomColor` push frame-by-frame via
+        // XCoordinator's `registerInteractiveTransition`. `progress` reports the gesture's position as a
+        // fraction in [0, 1]; `shouldFinish` decides on touch-up whether to complete or cancel.
         registerInteractiveTransition(
             for: .randomColor,
             triggeredBy: gestureRecognizer,

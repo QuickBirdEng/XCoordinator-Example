@@ -10,7 +10,9 @@ import Foundation
 import RxSwift
 import Action
 import XCoordinator
+import XCoordinatorRx
 
+@MainActor
 class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOutput {
 
     // MARK: Inputs
@@ -29,11 +31,11 @@ class AboutViewModelImpl: AboutViewModel, AboutViewModelInput, AboutViewModelOut
 
     // MARK: Stored properties
 
-    private let router: UnownedRouter<AboutRoute>
+    private unowned let router: any Router<AboutRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<AboutRoute>) {
+    init(router: any Router<AboutRoute>) {
         self.router = router
     }
 

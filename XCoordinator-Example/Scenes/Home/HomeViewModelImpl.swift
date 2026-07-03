@@ -11,6 +11,7 @@ import RxSwift
 import XCoordinator
 import XCoordinatorRx
 
+@MainActor
 class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput {
 
     // MARK: Inputs
@@ -34,18 +35,12 @@ class HomeViewModelImpl: HomeViewModel, HomeViewModelInput, HomeViewModelOutput 
     }
     // MARK: Stored properties
 
-    private let router: UnownedRouter<UserListRoute>
+    private unowned let router: any Router<UserListRoute>
 
     // MARK: Initialization
 
-    init(router: UnownedRouter<UserListRoute>) {
+    init(router: any Router<UserListRoute>) {
         self.router = router
-    }
-
-    // MARK: Methods
-
-    func registerPeek(for sourceView: Container) {
-        router.trigger(.registerUsersPeek(from: sourceView))
     }
 
 }

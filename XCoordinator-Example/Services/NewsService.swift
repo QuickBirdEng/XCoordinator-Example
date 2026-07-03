@@ -9,8 +9,8 @@
 import UIKit
 import RxSwift
 
-// swiftlint:disable line_length
-
+/// Source of news content. The sample app ships a mock-only implementation (`MockNewsService`) — there is
+/// no real backend; this protocol exists to demonstrate the MVVM-C dependency-injection seam.
 protocol NewsService {
     func mostRecentNews() -> (title: String, articles: [News])
 }
@@ -48,6 +48,7 @@ extension UIImage {
 
 }
 
+// swiftlint:disable:next line_length
 let loremIpsum = """
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus iaculis, augue ac consectetur volutpat, dui est malesuada tellus, et elementum odio urna quis odio. Mauris mollis at libero in elementum. Mauris enim dui, tincidunt id blandit vitae, condimentum a tellus. Donec ut diam in nisl interdum ultrices. Vivamus id magna nisi. Duis molestie libero velit, vel consequat mi viverra pellentesque. Nulla at tellus eget risus fringilla ornare id a quam. Pellentesque arcu neque, interdum nec enim eu, tincidunt volutpat mauris. Vivamus ultricies tortor at lacus vehicula, vitae laoreet tellus tincidunt. Etiam sollicitudin nisl scelerisque odio malesuada consectetur. Nunc non tempor felis. Sed dolor ipsum, scelerisque vitae dolor in, porttitor facilisis lorem. Nam id dolor sagittis, fermentum nulla eu, ornare neque.
 
