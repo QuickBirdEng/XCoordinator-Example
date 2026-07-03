@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A MVVM-C iOS sample app that demonstrates how to use [XCoordinator](https://github.com/QuickBirdEng/XCoordinator) v3 for navigation. There is no app logic of real-world value here — the scenes (Login → Home → News/Users → Detail/About) exist purely to exercise the coordinator types (`NavigationCoordinator`, `TabBarCoordinator`, `PageCoordinator`, `SplitCoordinator`) and the transition/animation APIs. When adding examples or fixing bugs, preserve coverage of these coordinator variants rather than collapsing them.
 
 - Swift 5.9, iOS 16.0+, universal (iPhone + iPad). (XCoordinator 3 requires iOS 16 / Swift 5.9.)
-- Dependencies are Swift Package Manager only — no Podfile / Cartfile. Resolved versions are pinned in `XCoordinator-Example.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`: `RxSwift` 6.x, `Action` 5.x, and `XCoordinator` pinned to a **commit revision** on the `feature/3.0.0` branch (`QuickBirdEng/XCoordinator`) because 3.0.0 is not yet tagged — see the `XCRemoteSwiftPackageReference "XCoordinator"` block in `project.pbxproj`.
+- Dependencies are Swift Package Manager only — no Podfile / Cartfile. Resolved versions are pinned in `XCoordinator-Example.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved`: `RxSwift` 6.x, `Action` 5.x, and `XCoordinator` tracking the **`feature/3.0.0` branch** of `QuickBirdEng/XCoordinator` (a `kind = branch` requirement) because 3.0.0 is not yet tagged — see the `XCRemoteSwiftPackageReference "XCoordinator"` block in `project.pbxproj`. Re-pin to a tag once 3.0.0 is released.
 - Open `XCoordinator-Example.xcodeproj` directly (there is no `.xcworkspace`).
 
 ## Build / test commands

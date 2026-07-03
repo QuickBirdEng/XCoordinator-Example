@@ -61,7 +61,7 @@ One gotcha worth knowing if you deep-link through a `PageCoordinator`: `deepLink
 - Xcode (current stable)
 - Swift 5.9
 - iOS 16+ (iPhone and iPad)
-- Swift Package Manager — `XCoordinator` 3.0.0 (pinned to a `feature/3.0.0` commit until 3.0.0 is tagged), `RxSwift` 6.x, `Action` 5.x
+- Swift Package Manager — `XCoordinator` 3.0.0 (tracks the `feature/3.0.0` branch until 3.0.0 is tagged), `RxSwift` 6.x, `Action` 5.x
 
 No CocoaPods, no Carthage; dependencies resolve automatically when you open the project.
 
